@@ -17,7 +17,7 @@ class Developer(db.Model):
         if self.logo:
             logo_path = os.path.join('media', self.logo)
             if os.path.exists(logo_path):
-                os.remove(logo_path, ignore_errors=True)
-                
+                os.remove(logo_path)
+
         db.session.delete(self)
         db.session.commit()
