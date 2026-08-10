@@ -1,0 +1,9 @@
+NAME = "Estate Core"
+SLUG = "estate-core"
+DESCRIPTION = "Manage properties, listings, and real estate data in one place."
+VERSION = "0.1"
+DEPENDENCIES = []
+AUTHOR = ""
+URL_PREFIX = ""
+STATIC_FOLDER = "static"
+TEMPLATE_FOLDER = "templates"
