@@ -1,5 +1,4 @@
 import os
-
 from extensions.estate_core import bp
 from flask import render_template, request, redirect, url_for, flash
 from core.extensions import db

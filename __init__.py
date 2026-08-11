@@ -6,7 +6,7 @@ bp = Blueprint('estate_core', __name__, template_folder=TEMPLATE_FOLDER, static_
 
 # import your routes here...
 
-from .routes.dashboard import property_configurations
+from .routes.dashboard import property_configurations, properties
 
 def init_extension(app, db):
     with app.app_context():

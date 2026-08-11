@@ -1,0 +1,109 @@
+{% extends "dashboard/base.html" %}
+{% block title %}{{ g.settings['site_title'] }} - Create Property{% endblock %}
+{% block main %}
+<div class="fd-dashboard-page-full" x-data="{
+    step: 1,
+    next_step(){
+        if(this.step < 3){
+            this.step++;
+        }
+    },
+    previous_step(){
+        if(this.step > 1){
+            this.step--;
+        }
+    }
+}">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div @click="step = 1" class="cursor-pointer hover:bg-gray-100 transition border border-gray-200 rounded-lg p-4 flex items-center space-x-4" :class="{'ring-1 ring-gray-600/40': step === 1}">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-10 text-gray-600 bg-gray-100 border border-gray-200 p-2 rounded">
+                <path d="M10 3.75a2 2 0 1 0-4 0 2 2 0 0 0 4 0ZM17.25 4.5a.75.75 0 0 0 0-1.5h-5.5a.75.75 0 0 0 0 1.5h5.5ZM5 3.75a.75.75 0 0 1-.75.75h-1.5a.75.75 0 0 1 0-1.5h1.5a.75.75 0 0 1 .75.75ZM4.25 17a.75.75 0 0 0 0-1.5h-1.5a.75.75 0 0 0 0 1.5h1.5ZM17.25 17a.75.75 0 0 0 0-1.5h-5.5a.75.75 0 0 0 0 1.5h5.5ZM9 10a.75.75 0 0 1-.75.75h-5.5a.75.75 0 0 1 0-1.5h5.5A.75.75 0 0 1 9 10ZM17.25 10.75a.75.75 0 0 0 0-1.5h-1.5a.75.75 0 0 0 0 1.5h1.5ZM14 10a2 2 0 1 0-4 0 2 2 0 0 0 4 0ZM10 16.25a2 2 0 1 0-4 0 2 2 0 0 0 4 0Z" />
+            </svg>
+            <div>
+                <h4 class="text-sm" :class="{'font-medium': step === 1}">Property Configuration</h4>
+                <p class="text-xs text-gray-600" :class="{'text-sm text-gray-700': step === 1}">Enter property configuration details</p>
+            </div>
+        </div>
+        <div @click="step = 2" class="cursor-pointer hover:bg-gray-100 transition border border-gray-200 rounded-lg p-4 flex items-center space-x-4" :class="{'ring-1 ring-gray-600/40': step === 2}">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-10 text-gray-600 bg-gray-100 border border-gray-200 p-2 rounded">
+                <path d="m5.433 13.917 1.262-3.155A4 4 0 0 1 7.58 9.42l6.92-6.918a2.121 2.121 0 0 1 3 3l-6.92 6.918c-.383.383-.84.685-1.343.886l-3.154 1.262a.5.5 0 0 1-.65-.65Z" />
+                <path d="M3.5 5.75c0-.69.56-1.25 1.25-1.25H10A.75.75 0 0 0 10 3H4.75A2.75 2.75 0 0 0 2 5.75v9.5A2.75 2.75 0 0 0 4.75 18h9.5A2.75 2.75 0 0 0 17 15.25V10a.75.75 0 0 0-1.5 0v5.25c0 .69-.56 1.25-1.25 1.25h-9.5c-.69 0-1.25-.56-1.25-1.25v-9.5Z" />
+            </svg>
+
+            <div>
+                <h4 class="text-sm" :class="{'font-medium': step === 2}">Property Details</h4>
+                <p class="text-xs text-gray-600" :class="{'text-sm text-gray-700': step === 2}">Enter property name and description details</p>
+            </div>
+        </div>
+        <div @click="step = 3" class="cursor-pointer hover:bg-gray-100 transition border border-gray-200 rounded-lg p-4 flex items-center space-x-4" :class="{'ring-1 ring-gray-600/40': step === 3}">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-10 text-gray-600 bg-gray-100 border border-gray-200 p-2 rounded">
+                <path d="M10 3.75a2 2 0 1 0-4 0 2 2 0 0 0 4 0ZM17.25 4.5a.75.75 0 0 0 0-1.5h-5.5a.75.75 0 0 0 0 1.5h5.5ZM5 3.75a.75.75 0 0 1-.75.75h-1.5a.75.75 0 0 1 0-1.5h1.5a.75.75 0 0 1 .75.75ZM4.25 17a.75.75 0 0 0 0-1.5h-1.5a.75.75 0 0 0 0 1.5h1.5ZM17.25 17a.75.75 0 0 0 0-1.5h-5.5a.75.75 0 0 0 0 1.5h5.5ZM9 10a.75.75 0 0 1-.75.75h-5.5a.75.75 0 0 1 0-1.5h5.5A.75.75 0 0 1 9 10ZM17.25 10.75a.75.75 0 0 0 0-1.5h-1.5a.75.75 0 0 0 0 1.5h1.5ZM14 10a2 2 0 1 0-4 0 2 2 0 0 0 4 0ZM10 16.25a2 2 0 1 0-4 0 2 2 0 0 0 4 0Z" />
+            </svg>
+            <div>
+                <h4 class="text-sm" :class="{'font-medium': step === 3}">Features and Amenities</h4>
+                <p class="text-xs text-gray-600" :class="{'text-sm text-gray-700': step === 3}">Enter property features and amenities details</p>
+            </div>
+        </div>
+    </div>
+    <div class="p-4 space-y-16" x-show="step === 1">
+        <div class="text-center w-full">
+            <h4 class="text-2xl">Enter Property Configurations</h4>
+            <p class="text-gray-500">Fill in the details for your new property</p>
+        </div>
+        <div class="max-w-2xl mx-auto space-y-4">
+            <div class="">
+                <label for="" class="fd-form-label">Developer</label>
+                <select name="developer" id="developer" class="fd-input">
+                    <option value="" class="">Amaia</option>
+                    <option value="" class="">Avida</option>
+                    <option value="" class="">Aldea</option>
+                </select>
+            </div>
+            <div class="">
+                <label for="" class="fd-form-label">Property Type</label>
+                <select name="property_type" id="property_type" class="fd-input">
+                    <option value="" class="">Condominium</option>
+                    <option value="" class="">Townhouse</option>
+                    <option value="" class="">Commercial</option>
+                </select>
+            </div>
+            <div class="">
+                <label for="" class="fd-form-label">Location</label>
+                <input type="text" name="" id="" class="fd-input" placeholder="BGC, Taguig City, Metro Manila, etc...">
+            </div>
+            <button class="fd-btn fd-btn-secondary fd-btn-block" @click="next_step()">Next</button>
+        </div>
+    </div>
+    <div class="p-4 space-y-16" x-show="step === 2">
+        <div class="text-center w-full">
+            <h4 class="text-2xl">Enter Property Details</h4>
+            <p class="text-gray-500">Fill in the details for your new property</p>
+        </div>
+        <div class="max-w-2xl mx-auto space-y-4">
+            <div class="">
+                <label for="" class="fd-form-label">Name</label>
+                <input type="text" name="" id="" class="fd-input" placeholder="Property Name">
+            </div>
+            <div class="">
+                <label for="" class="fd-form-label">Description</label>
+                <textarea name="" id="" class="fd-input" rows="10" placeholder="Whether you're looking for a comfortable home or a valuable investment..."></textarea>
+            </div>
+            <div class="flex items-center w-full space-x-4">
+                <div class="w-full">
+                    <label for="" class="fd-form-label">Starting Price Range</label>
+                    <input type="number" name="" id="" class="fd-input" placeholder="₱100,000">
+                </div>
+                <div class="w-full">
+                    <label for="" class="fd-form-label">Ending Price Range</label>
+                    <input type="number" name="" id="" class="fd-input" placeholder="₱1,000,000">
+                </div>
+            </div>
+            <div class="flex items-center space-x-4">
+
+                <button class="fd-btn fd-btn-outline fd-btn-block " @click="previous_step()">Previous</button>
+                <button class="fd-btn fd-btn-secondary fd-btn-block" @click="next_step()">Next</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
