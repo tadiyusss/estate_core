@@ -1,8 +1,8 @@
-
 from flask_wtf import FlaskForm
 from wtforms import StringField, FileField, TextAreaField
 from wtforms.validators import DataRequired, Length
 from flask_wtf.file import FileAllowed
+
 
 ALLOWED_LOGO_EXTENSIONS = ['jpg', 'jpeg', 'png', 'gif', 'svg', 'webp']
 
