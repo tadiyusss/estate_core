@@ -356,6 +356,10 @@
                     input.files = dataTransfer.files;
                 },
                 init(){
+                    window.addEventListener('beforeunload', function (e) {
+                        e.preventDefault();
+                        e.returnValue = '';
+                    });
                     this.validator = new JustValidate('#create_property_form', {
                         errorLabelCssClass: 'fd-error-message',
                         submitFormAutomatically: true,
