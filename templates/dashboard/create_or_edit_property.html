@@ -38,8 +38,8 @@
                 <path d="M16.555 5.412a8.028 8.028 0 0 0-3.503-2.81 14.899 14.899 0 0 1 1.663 4.472 8.547 8.547 0 0 0 1.84-1.662ZM13.326 7.825a13.43 13.43 0 0 0-2.413-5.773 8.087 8.087 0 0 0-1.826 0 13.43 13.43 0 0 0-2.413 5.773A8.473 8.473 0 0 0 10 8.5c1.18 0 2.304-.24 3.326-.675ZM6.514 9.376A9.98 9.98 0 0 0 10 10c1.226 0 2.4-.22 3.486-.624a13.54 13.54 0 0 1-.351 3.759A13.54 13.54 0 0 1 10 13.5c-1.079 0-2.128-.127-3.134-.366a13.538 13.538 0 0 1-.352-3.758ZM5.285 7.074a14.9 14.9 0 0 1 1.663-4.471 8.028 8.028 0 0 0-3.503 2.81c.529.638 1.149 1.199 1.84 1.66ZM17.334 6.798a7.973 7.973 0 0 1 .614 4.115 13.47 13.47 0 0 1-3.178 1.72 15.093 15.093 0 0 0 .174-3.939 10.043 10.043 0 0 0 2.39-1.896ZM2.666 6.798a10.042 10.042 0 0 0 2.39 1.896 15.196 15.196 0 0 0 .174 3.94 13.472 13.472 0 0 1-3.178-1.72 7.973 7.973 0 0 1 .615-4.115ZM10 15c.898 0 1.778-.079 2.633-.23a13.473 13.473 0 0 1-1.72 3.178 8.099 8.099 0 0 1-1.826 0 13.47 13.47 0 0 1-1.72-3.178c.855.151 1.735.23 2.633.23ZM14.357 14.357a14.912 14.912 0 0 1-1.305 3.04 8.027 8.027 0 0 0 4.345-4.345c-.953.542-1.971.981-3.04 1.305ZM6.948 17.397a8.027 8.027 0 0 1-4.345-4.345c.953.542 1.971.981 3.04 1.305a14.912 14.912 0 0 0 1.305 3.04Z" />
             </svg>
             <div>
-                <h4 class="text-sm" :class="{'font-medium': step === 4}">Map Location</h4>
-                <p class="text-xs text-gray-600" :class="{'text-sm text-gray-700': step === 4}">Enter property location on the map</p>
+                <h4 class="text-sm" :class="{'font-medium': step === 4}">Location and Images</h4>
+                <p class="text-xs text-gray-600" :class="{'text-sm text-gray-700': step === 4}">Enter property location and image details.</p>
             </div>
         </div>
     </div>
@@ -47,6 +47,7 @@
         <div class="text-center w-full">
             <h4 class="text-2xl">Enter Property Configurations</h4>
             <p class="text-gray-500">Fill in the details for your new property</p>
+            
         </div>
         <div class="max-w-2xl mx-auto space-y-4">
             <div class="">
@@ -173,11 +174,11 @@
         </div>
         <div class="max-w-2xl mx-auto space-y-4">
             <div class="space-y-4">
-                {{ form.amenities_list.label(class="fd-form-label") }}
+                
                 <template x-for="(amenities_form, index) in amenities" :key="index">
                     <div class="flex items-center space-x-4">
                         <input type="text" :name="`amenities_list-${index}-amenities`" :id="`amenities_list-${index}-amenities`" class="fd-input" placeholder="Swimming Pool, Gym, etc..." x-model="amenities[index]" required>
-                        <button class="fd-btn fd-btn-outline fd-btn-sm" x-show="amenities.length > 1" @click="amenities.splice(index, 1)">-</button>
+                        <button type="button" class="fd-btn fd-btn-outline fd-btn-sm" x-show="amenities.length > 1" @click="amenities.splice(index, 1)">-</button>
                     </div>
                     <small class="text-xs text-gray-600">{{ form.amenities_list.description }}</small>
                     {% for error in form.amenities_list.errors %}
@@ -202,7 +203,13 @@
             <div class="border border-gray-200 p-4 h-96 rounded-lg bg-gray-100"></div>
             <div class="flex items-center space-x-4">
                 <button type="button" class="fd-btn fd-btn-outline fd-btn-block " @click="previous_step()">Previous</button>
-                <button type="submit" class="fd-btn fd-btn-secondary fd-btn-block" :disabled="is_submit_disabled()" :class="{'opacity-50 cursor-not-allowed': is_submit_disabled()}">Create</button>
+                <button type="submit" class="fd-btn fd-btn-secondary fd-btn-block" :disabled="is_submit_disabled()" :class="{'opacity-50 cursor-not-allowed': is_submit_disabled()}">
+                    {% if is_edit %}
+                        Update
+                    {% else %}
+                        Create
+                    {% endif %}
+                </button>
             </div>
         </div>
     </div>
@@ -213,9 +220,9 @@
     <script>
         function create_property_form(){
             return {
-                step: localStorage.getItem('create_property_step') ? parseInt(localStorage.getItem('create_property_step')) : 1,
+                step: 1,
                 max_steps: 4,
-                amenities: [''],
+                amenities: {% if property_listing %}{{ property_listing.amenities_to_list | safe }}{% else %}['']{% endif %},
                 amenities_error: false,
                 is_form_valid: true,
                 validator: null,

@@ -31,3 +31,7 @@ class PropertyListing(db.Model):
     max_floor_area = db.Column(db.Integer, nullable=True)
 
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+    @property
+    def amenities_to_list(self):
+        return [amenity.amenity for amenity in self.amenities]
