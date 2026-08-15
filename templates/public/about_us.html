@@ -1,0 +1,24 @@
+{% extends "public/base.html" %}
+{% block title %}About Us{% endblock %}
+{% block content %}
+    {% include "components/navigation-green.html" %}
+    <section class="bg-gradient-to-br from-zinc-950 to-emerald-950 text-white py-8">
+        <div class="max-w-7xl mx-auto p-4 text-center space-y-6">
+            <div>
+                <h1 class="text-4xl font-semibold tracking-tight">From Ayala Land's Finest Team</h1>
+                <p class="text-gray-200 max-w-2xl text-gray-400 mx-auto">Experience exceptional service and trusted expertise from the team behind some of the Philippines’ finest properties.</p>
+            </div>
+            <div class="flex items-center justify-center space-x-6 md:space-x-12 flex-wrap">
+                <img src="https://placehold.co/250x250" class="rounded size-32 object-cover" alt="Team Member 1">
+                <img src="https://placehold.co/250x250" class="rounded size-32 object-cover" alt="Team Member 1">
+                <img src="https://placehold.co/250x250" class="rounded size-32 object-cover" alt="Team Member 1">
+            </div>
+        </div>
+    </section>
+    <section class="bg-gray-100">
+        <div class="max-w-7xl mx-auto px4 py-10 text-center">
+            <h4 class="text-4xl">Meet The Team</h4>
+        </div>
+    </section>
+    {% include "components/footer.html" %}
+{% endblock %}

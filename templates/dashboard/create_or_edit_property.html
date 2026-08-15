@@ -221,7 +221,7 @@
             <div class="divide-y divide-gray-200">
                 <template x-for="(file, index) in files" :key="index">
                     <div class="flex items-center justify-between py-2">
-                        <span x-text="file.name"></span>
+                        <span class="text-sm" x-text="file.name"></span>
                         <button type="button" class="fd-btn fd-btn-outline fd-btn-sm" @click="remove_file(index)">Remove</button>
                     </div>
                 </template>
