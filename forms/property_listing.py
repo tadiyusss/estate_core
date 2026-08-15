@@ -1,0 +1,30 @@
+from flask_wtf import FlaskForm
+from wtforms import StringField, FileField, TextAreaField, SelectField, IntegerField, FieldList, Form, FormField
+from wtforms.validators import DataRequired, Length
+from flask_wtf.file import FileAllowed
+from extensions.estate_core.models import Developer
+from extensions.estate_core.models import PropertyType
+
+
+class AmenitiesForm(Form):
+    amenities = StringField('Amenities', validators=[DataRequired(), Length(max=100)], render_kw={'class': 'fd-input', 'placeholder': 'Swimming Pool, Gym, etc...'})
+
+class CreatePropertyForm(FlaskForm):
+    developer = SelectField('Developer', validators=[DataRequired()], render_kw={'class': 'fd-input'}, choices=[(developer.id, developer.name) for developer in Developer.query.all()])
+    property_type = SelectField('Property Type', validators=[DataRequired()], render_kw={'class': 'fd-input'}, choices=[(property_type.id, property_type.name) for property_type in PropertyType.query.all()])
+
+    location = StringField('Location', validators=[DataRequired(), Length(max=255)], render_kw={'class': 'fd-input', 'placeholder': 'BGC, Taguig City, Metro Manila, etc...'}, description="Required")
+    status = SelectField('Status', validators=[DataRequired()], render_kw={'class': 'fd-input'}, choices=[('pre_selling', 'Pre-selling'), ('under_construction', 'Under Construction'), ('ready_for_occupancy', 'Ready for Occupancy')])
+
+    min_lot_size = IntegerField('Lot Size (sq meters)', render_kw={'class': 'fd-input'}, description="Required")
+    max_lot_size = IntegerField('Max Lot Size (sq meters)', render_kw={'class': 'fd-input'}, description="Required")
+
+    min_floor_area = IntegerField('Min Floor Area (sq meters)', render_kw={'class': 'fd-input'}, description="Required")
+    max_floor_area = IntegerField('Max Floor Area (sq meters)', render_kw={'class': 'fd-input'}, description="Required")
+
+    start_price_range = IntegerField('Start Price Range', validators=[DataRequired()], render_kw={'class': 'fd-input', 'placeholder': '₱100,000'}, description="Required")
+    end_price_range = IntegerField('End Price Range', validators=[DataRequired()], render_kw={'class': 'fd-input', 'placeholder': '₱10,000,000'}, description="Required")
+
+    name = StringField('Name', validators=[DataRequired(), Length(max=100)], render_kw={'class': 'fd-input', 'placeholder': 'ACME Residences, Amaia Scapes, etc...'}, description="Required")
+    description = TextAreaField('Description', validators=[DataRequired(), Length(max=1000)], render_kw={'class': 'fd-input w-full', 'rows': 10, 'placeholder': "Whether you're looking for a comfortable home or a valuable investment..."}, description="Required")
+    amenities_list = FieldList(FormField(AmenitiesForm), min_entries=1, max_entries=50)
