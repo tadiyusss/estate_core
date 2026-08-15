@@ -1,7 +1,7 @@
 {% extends "dashboard/base.html" %}
 {% block title %}{{ g.settings['site_title'] }} - Create Property{% endblock %}
 {% block main %}
-<form method="POST" class="fd-dashboard-page-full" id="create_property_form" x-data="create_property_form()" x-init="init()">
+<form method="POST" class="fd-dashboard-page-full" id="create_property_form" x-data="create_property_form()" x-init="init()" enctype="multipart/form-data">
     {{ form.hidden_tag() }}
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <div @click="change_step(1)" class="cursor-pointer hover:bg-gray-100 transition border border-gray-200 rounded-lg p-4 flex items-center space-x-4" :class="{'ring-1 ring-gray-600/40': step === 1}">
@@ -194,13 +194,52 @@
             </div>
         </div>
     </div>
-    <div class="p-4 space-y-16" x-show="step === 4">
+    <div class="p-4 space-y-6" x-show="step === 4">
         <div class="text-center w-full">
             <h4 class="text-2xl">Enter Property Location</h4>
             <p class="text-gray-500">Fill in the location details for your new property</p>
         </div>
         <div class="max-w-2xl mx-auto space-y-4">
-            <div class="border border-gray-200 p-4 h-96 rounded-lg bg-gray-100"></div>
+            <div class="w-full">
+                <div class="flex items-center justify-center w-full">
+                    <label for="{{ form.images.id }}" class="flex flex-col items-center justify-center w-full h-64 border border-dashed border-gray-200 bg-gray-100 rounded-lg">
+                        <div class="flex flex-col items-center justify-center text-body pt-5 pb-6">
+                            <svg class="fd-icon-lg" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h3a3 3 0 0 0 0-6h-.025a5.56 5.56 0 0 0 .025-.5A5.5 5.5 0 0 0 7.207 9.021C7.137 9.017 7.071 9 7 9a4 4 0 1 0 0 8h2.167M12 19v-9m0 0-2 2m2-2 2 2"/>
+                            </svg>
+                            <p class="mb-2 text-sm"><span class="font-semibold">Click to upload</span> or drag and drop</p>
+                            <p class="text-sm text-gray-500">Supported formats: JPG, PNG, GIF, SVG</p>
+                        </div>
+                        {{ form.images }}
+                    </label>
+                </div> 
+            </div>
+            {% for error in form.images.errors %}
+                <p class="fd-error-message">{{ error }}</p>
+            {% endfor %}
+
+            <div class="divide-y divide-gray-200">
+                <template x-for="(file, index) in files" :key="index">
+                    <div class="flex items-center justify-between py-2">
+                        <span x-text="file.name"></span>
+                        <button type="button" class="fd-btn fd-btn-outline fd-btn-sm" @click="remove_file(index)">Remove</button>
+                    </div>
+                </template>
+            </div>
+            {% if property_listing.images %}
+            <div class="grid grid-cols-5 gap-2">
+                {% for image in property_listing.images %}
+                <div class="relative group border border-gray-200 rounded-lg overflow-hidden">
+                    <img src="{{ url_for('media.serve_media', filename=image.image_filename) }}" alt="Property Image" class="w-full h-full object-cover rounded-lg">
+                    <a href="{{ url_for('estate_core.delete_property_image', image_uuid=image.uuid) }}" type="button" aria-label="Delete image" class="absolute top-2 right-2 inline-flex items-center justify-center w-8 h-8 rounded-full bg-white/90 text-gray-700 shadow-sm opacity-0 transition-opacity group-hover:opacity-100 hover:bg-red-600 hover:text-white">
+                        <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 6l12 12M18 6 6 18"/>
+                        </svg>
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
             <div class="flex items-center space-x-4">
                 <button type="button" class="fd-btn fd-btn-outline fd-btn-block " @click="previous_step()">Previous</button>
                 <button type="submit" class="fd-btn fd-btn-secondary fd-btn-block" :disabled="is_submit_disabled()" :class="{'opacity-50 cursor-not-allowed': is_submit_disabled()}">
@@ -220,13 +259,14 @@
     <script>
         function create_property_form(){
             return {
-                step: 1,
+                step: localStorage.getItem('create_property_step') ? parseInt(localStorage.getItem('create_property_step')) : 1,
                 max_steps: 4,
                 amenities: {% if property_listing %}{{ property_listing.amenities_to_list | safe }}{% else %}['']{% endif %},
                 amenities_error: false,
                 is_form_valid: true,
                 validator: null,
                 field_validity: {},
+                files: [],
                 step_fields: {
                     1: ['#developer', '#property_type', '#status', '#location'],
                     2: ['#name', '#description', '#start_price_range', '#end_price_range'],
@@ -301,6 +341,19 @@
                     };
                     el.addEventListener('input', revalidate);
                     el.addEventListener('change', revalidate);
+                },
+                handle_file_change(event){
+                    this.files = Array.from(event.target.files);
+                },
+                remove_file(index){
+                    this.files.splice(index, 1);
+                    const input = document.getElementById('{{ form.images.id }}');
+                    if(!input){
+                        return;
+                    }
+                    const dataTransfer = new DataTransfer();
+                    this.files.forEach(file => dataTransfer.items.add(file));
+                    input.files = dataTransfer.files;
                 },
                 init(){
                     this.validator = new JustValidate('#create_property_form', {

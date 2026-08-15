@@ -5,10 +5,12 @@ from core.extensions import db
 from core.utils.decorators import roles_required
 from flask_login import login_required
 from extensions.estate_core.forms.property_listing import AmenitiesForm, CreatePropertyForm
-from extensions.estate_core.models import Developer, PropertyType, PropertyListing, Amenity
+from extensions.estate_core.models import Developer, PropertyType, PropertyListing, Amenity, PropertyImage
 from extensions.estate_core.forms.filters.property_listing import FilterPropertyForm
 from extensions.estate_core.models.property_listing import STATUS_CHOICES
 from extensions.estate_core.forms.confirm_delete_property import ConfirmDeletePropertyForm
+from werkzeug.utils import secure_filename
+import uuid
 
 @bp.route('/dashboard/estate-core/properties')
 @login_required
@@ -76,6 +78,7 @@ def create_property():
 
     if request.method == "POST":
         if form.validate_on_submit():
+            
             new_property = PropertyListing(
                 developer_id=form.developer.data,
                 property_type_id=form.property_type.data,
@@ -100,6 +103,15 @@ def create_property():
                     db.session.add(new_amenity)
             db.session.commit()
 
+            for image in form.images.data:
+                if image:
+                    filename = secure_filename(image.filename)
+                    unique_filename = f"{uuid.uuid4().hex}_{filename}"
+                    image.save(f"media/{unique_filename}")
+                    new_image = PropertyImage(property_id=new_property.id, image_filename=unique_filename)
+                    db.session.add(new_image)
+            db.session.commit()
+
             flash('Property created successfully!', 'success')
             return redirect(url_for('estate_core.manage_properties'))
         else:
@@ -118,6 +130,7 @@ def edit_property(property_uuid):
 
     if request.method == "POST":
         if form.validate_on_submit():
+            print(form.images.data)
             property_listing.developer_id = form.developer.data
             property_listing.property_type_id = form.property_type.data
             property_listing.name = form.name.data
@@ -141,10 +154,29 @@ def edit_property(property_uuid):
                     db.session.add(new_amenity)
             db.session.commit()
 
+            for image in form.images.data:
+                if image:
+                    filename = secure_filename(image.filename)
+                    unique_filename = f"{uuid.uuid4().hex}_{filename}"
+                    image.save(f"media/{unique_filename}")
+                    new_image = PropertyImage(property_id=property_listing.id, image_filename=unique_filename)
+                    db.session.add(new_image)
+            db.session.commit()
+
             flash('Property updated successfully!', 'success')
             return redirect(url_for('estate_core.manage_properties'))
         else:
-            print(form.errors)
             flash('Please correct the errors in the form.', 'danger')
 
     return render_template('dashboard/create_or_edit_property.html', form=form, property_uuid=property_uuid, property_listing=property_listing, is_edit=True)
+
+@bp.route('/dashboard/estate-core/properties/delete-image/<string:image_uuid>')
+@login_required
+@roles_required(['Administrator', 'Editor'])
+def delete_property_image(image_uuid):
+    image = PropertyImage.query.filter_by(uuid=image_uuid).first_or_404()
+    image.delete_image_file()
+    db.session.delete(image)
+    db.session.commit()
+    flash('Property image deleted successfully!', 'success')
+    return redirect(url_for('estate_core.edit_property', property_uuid=image.property_listing.uuid))

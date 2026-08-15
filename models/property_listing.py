@@ -32,6 +32,13 @@ class PropertyListing(db.Model):
 
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
+    images = db.relationship(
+        "PropertyImage",
+        back_populates="property_listing",
+        cascade="all, delete-orphan",
+        lazy="select"
+    )
+
     @property
     def amenities_to_list(self):
         return [amenity.amenity for amenity in self.amenities]

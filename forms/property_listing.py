@@ -1,10 +1,12 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, FileField, TextAreaField, SelectField, DecimalField, FieldList, Form, FormField
 from wtforms.validators import DataRequired, Length
-from flask_wtf.file import FileAllowed
+from flask_wtf.file import FileAllowed, FileSize, MultipleFileField
 from extensions.estate_core.models import Developer
 from extensions.estate_core.models import PropertyType
 from extensions.estate_core.models.property_listing import STATUS_CHOICES
+
+IMAGES_ALLOWED = ['jpg', 'jpeg', 'png', 'gif', 'svg', 'webp']
 
 class AmenitiesForm(Form):
     amenities = StringField('Amenities', validators=[DataRequired(), Length(max=100)], render_kw={'class': 'fd-input', 'placeholder': 'Swimming Pool, Gym, etc...'})
@@ -28,3 +30,5 @@ class CreatePropertyForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired(), Length(max=100)], render_kw={'class': 'fd-input', 'placeholder': 'ACME Residences, Amaia Scapes, etc...'}, description="Required")
     description = TextAreaField('Description', validators=[DataRequired(), Length(max=1000)], render_kw={'class': 'fd-input w-full', 'rows': 10, 'placeholder': "Whether you're looking for a comfortable home or a valuable investment..."}, description="Required")
     amenities_list = FieldList(FormField(AmenitiesForm), min_entries=1, max_entries=50)
+
+    images = MultipleFileField('Property Images', render_kw={'class': 'hidden', '@change': 'handle_file_change($event)'}, validators=[FileAllowed(IMAGES_ALLOWED, 'Invalid file type. Please upload a valid image. (JPG, PNG, GIF, SVG, WEBP)'), FileSize(max_size=16*1024*1024, message="File size must be less than 16MB")], description="Required. You can upload multiple images.")
