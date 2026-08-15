@@ -1,7 +1,6 @@
 from datetime import datetime
 from core.extensions import db
 import uuid
-import os
 
 class PropertyType(db.Model):
     id = db.Column(db.Integer, primary_key=True)

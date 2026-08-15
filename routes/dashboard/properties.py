@@ -17,5 +17,14 @@ def manage_properties():
 @roles_required(['Administrator', 'Editor'])
 def create_property():
     form = CreatePropertyForm()
-
+    if request.method == "POST":
+        if form.validate_on_submit():
+            # show all fields that has errors
+            print(form.errors)
+            print(form.data)
+            flash('Property created successfully!', 'success')
+            return redirect(url_for('estate_core.manage_properties'))
+        else:
+            print(form.errors)
+            flash('Please correct the errors in the form.', 'danger')
     return render_template('dashboard/create_property.html', form=form)

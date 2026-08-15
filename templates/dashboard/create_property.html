@@ -1,28 +1,8 @@
 {% extends "dashboard/base.html" %}
 {% block title %}{{ g.settings['site_title'] }} - Create Property{% endblock %}
 {% block main %}
-<div class="fd-dashboard-page-full" x-data="{
-    step: localStorage.getItem('create_property_step') ? parseInt(localStorage.getItem('create_property_step')) : 1,
-    max_steps: 4,
-    next_step(){
-        if(this.step < this.max_steps){
-            localStorage.setItem('create_property_step', this.step + 1);
-            this.step++;
-        }
-    },
-    previous_step(){
-        if(this.step > 1){
-            localStorage.setItem('create_property_step', this.step - 1);
-            this.step--;
-        }
-    }, 
-    change_step(step){
-        if(step >= 1 && step <= this.max_steps){
-            localStorage.setItem('create_property_step', step);
-            this.step = step;
-        }
-    }
-}">
+<form method="POST" class="fd-dashboard-page-full" id="create_property_form" x-data="create_property_form()" x-init="init()">
+    {{ form.hidden_tag() }}
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <div @click="change_step(1)" class="cursor-pointer hover:bg-gray-100 transition border border-gray-200 rounded-lg p-4 flex items-center space-x-4" :class="{'ring-1 ring-gray-600/40': step === 1}">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-10 text-gray-600 bg-gray-100 border border-gray-200 p-2 rounded">
@@ -72,20 +52,36 @@
             <div class="">
                 {{ form.developer.label(class="fd-form-label") }}
                 {{ form.developer }}
+                <small class="text-xs text-gray-600">{{ form.developer.description }}</small>
+                {% for error in form.developer.errors %}
+                    <p class="fd-error-message">{{ error }}</p>
+                {% endfor %}
             </div>
             <div class="">
                 {{ form.property_type.label(class="fd-form-label") }}
                 {{ form.property_type }}
+                <small class="text-xs text-gray-600">{{ form.property_type.description }}</small>
+                {% for error in form.property_type.errors %}
+                    <p class="fd-error-message">{{ error }}</p>
+                {% endfor %}
             </div>
             <div class="">
                 {{ form.status.label(class="fd-form-label") }}
                 {{ form.status }}
+                <small class="text-xs text-gray-600">{{ form.status.description }}</small>
+                {% for error in form.status.errors %}
+                    <p class="fd-error-message">{{ error }}</p>
+                {% endfor %}
             </div>
             <div class="">
                 {{ form.location.label(class="fd-form-label") }}
                 {{ form.location }}
+                <small class="text-xs text-gray-600">{{ form.location.description }}</small>
+                {% for error in form.location.errors %}
+                    <p class="fd-error-message">{{ error }}</p>
+                {% endfor %}
             </div>
-            <button class="fd-btn fd-btn-secondary fd-btn-block" @click="next_step()">Next</button>
+            <button type="button" class="fd-btn fd-btn-secondary fd-btn-block" :disabled="is_next_disabled()" :disabled="is_next_disabled()" @click="next_step()" >Next</button>
         </div>
     </div>
     <div class="p-4 space-y-16" x-show="step === 2">
@@ -97,24 +93,40 @@
             <div class="">
                 {{ form.name.label(class="fd-form-label") }}
                 {{ form.name }}
+                <small class="text-xs text-gray-600">{{ form.name.description }}</small>
+                {% for error in form.name.errors %}
+                    <p class="fd-error-message">{{ error }}</p>
+                {% endfor %}
             </div>
             <div class="">
                 {{ form.description.label(class="fd-form-label") }}
                 {{ form.description }}
+                <small class="text-xs text-gray-600">{{ form.description.description }}</small>
+                {% for error in form.description.errors %}
+                    <p class="fd-error-message">{{ error }}</p>
+                {% endfor %}
             </div>
             <div class="flex items-center w-full space-x-4">
                 <div class="w-full">
                     {{ form.start_price_range.label(class="fd-form-label") }}
                     {{ form.start_price_range }}
+                    <small class="text-xs text-gray-600">{{ form.start_price_range.description }}</small>
+                    {% for error in form.start_price_range.errors %}
+                        <p class="fd-error-message">{{ error }}</p>
+                    {% endfor %}
                 </div>
                 <div class="w-full">
                     {{ form.end_price_range.label(class="fd-form-label") }}
                     {{ form.end_price_range }}
+                    <small class="text-xs text-gray-600">{{ form.end_price_range.description }}</small>
+                    {% for error in form.end_price_range.errors %}
+                        <p class="fd-error-message">{{ error }}</p>
+                    {% endfor %}
                 </div>
             </div>
             <div class="flex items-center space-x-4">
-                <button class="fd-btn fd-btn-outline fd-btn-block " @click="previous_step()">Previous</button>
-                <button class="fd-btn fd-btn-secondary fd-btn-block" @click="next_step()">Next</button>
+                <button type="button" class="fd-btn fd-btn-outline fd-btn-block " @click="previous_step()">Previous</button>
+                <button type="button" class="fd-btn fd-btn-secondary fd-btn-block" :disabled="is_next_disabled()" :disabled="is_next_disabled()" @click="next_step()" >Next</button>
             </div>
         </div>
     </div>
@@ -124,20 +136,24 @@
             <p class="text-gray-500">Fill in the features and amenities for your new property</p>
         </div>
         <div class="max-w-2xl mx-auto space-y-4">
-            <div class="">
-                <label for="" class="fd-form-label">Amenities</label>
-                <div class="space-y-2 flex items-center space-x-4">
-                    <input type="text" name="" id="" class="fd-input">
-                    <button class="fd-btn fd-btn-outline mb-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4">
-                            <path d="M8.75 3.75a.75.75 0 0 0-1.5 0v3.5h-3.5a.75.75 0 0 0 0 1.5h3.5v3.5a.75.75 0 0 0 1.5 0v-3.5h3.5a.75.75 0 0 0 0-1.5h-3.5v-3.5Z" />
-                        </svg>
-                    </button>
-                </div>
+            <div class="space-y-4">
+                {{ form.amenities_list.label(class="fd-form-label") }}
+                <template x-for="(amenities_form, index) in amenities" :key="index">
+                    <div class="flex items-center space-x-4">
+                        <input type="text" :name="`amenities_list-${index}-amenities`" :id="`amenities_list-${index}-amenities`" class="fd-input" placeholder="Swimming Pool, Gym, etc..." x-model="amenities[index]" required>
+                        <button class="fd-btn fd-btn-outline fd-btn-sm" x-show="amenities.length > 1" @click="amenities.splice(index, 1)">-</button>
+                    </div>
+                    <small class="text-xs text-gray-600">{{ form.amenities_list.description }}</small>
+                    {% for error in form.amenities_list.errors %}
+                        <p class="fd-error-message">{{ error }}</p>
+                    {% endfor %}
+                </template>
+                <p class="fd-error-message" x-show="amenities_error">Every amenity field must be filled in.</p>
+                <button type="button" class="fd-btn fd-btn-secondary fd-btn-sm" @click="amenities.push('')">Add Amenity</button>
             </div>
             <div class="flex items-center space-x-4">
-                <button class="fd-btn fd-btn-outline fd-btn-block " @click="previous_step()">Previous</button>
-                <button class="fd-btn fd-btn-secondary fd-btn-block" @click="next_step()">Next</button>
+                <button type="button" class="fd-btn fd-btn-outline fd-btn-block " @click="previous_step()">Previous</button>
+                <button type="button" class="fd-btn fd-btn-secondary fd-btn-block" :disabled="is_next_disabled()" :disabled="is_next_disabled()" @click="next_step()" >Next</button>
             </div>
         </div>
     </div>
@@ -147,14 +163,188 @@
             <p class="text-gray-500">Fill in the location details for your new property</p>
         </div>
         <div class="max-w-2xl mx-auto space-y-4">
-            <div class="border border-gray-200 p-4 h-96 rounded-lg bg-gray-100">
-
-            </div>
+            <div class="border border-gray-200 p-4 h-96 rounded-lg bg-gray-100"></div>
             <div class="flex items-center space-x-4">
-                <button class="fd-btn fd-btn-outline fd-btn-block " @click="previous_step()">Previous</button>
-                <button class="fd-btn fd-btn-secondary fd-btn-block" @click="next_step()">Create</button>
+                <button type="button" class="fd-btn fd-btn-outline fd-btn-block " @click="previous_step()">Previous</button>
+                <button type="submit" class="fd-btn fd-btn-secondary fd-btn-block" :disabled="is_submit_disabled()" :class="{'opacity-50 cursor-not-allowed': is_submit_disabled()}">Create</button>
             </div>
         </div>
     </div>
-</div>
+</form>
+{% endblock %}
+{% block javascript %}
+    <script src="https://unpkg.com/just-validate@latest/dist/just-validate.production.min.js"></script>
+    <script>
+        function create_property_form(){
+            return {
+                step: localStorage.getItem('create_property_step') ? parseInt(localStorage.getItem('create_property_step')) : 1,
+                max_steps: 4,
+                amenities: [''],
+                amenities_error: false,
+                is_form_valid: true,
+                validator: null,
+                field_validity: {},
+                step_fields: {
+                    1: ['#developer', '#property_type', '#status', '#location'],
+                    2: ['#name', '#description', '#start_price_range', '#end_price_range'],
+                },
+                compute_initial_validity(field_id){
+                    const el = document.querySelector(field_id);
+                    return !!(el && el.value && el.value.trim().length > 0);
+                },
+                is_next_disabled(){
+                    if(this.step === 3){
+                        return this.amenities.some(a => !a || !a.trim());
+                    }
+                    const fields = this.step_fields[this.step];
+                    if(!fields){
+                        return false; 
+                    }
+                    return fields.some(field_id => !this.field_validity[field_id]);
+                },
+
+                is_submit_disabled(){
+                    const amenities_invalid = this.amenities.some(a => !a || !a.trim());
+                    const other_fields_invalid = Object.values(this.step_fields)
+                        .flat()
+                        .some(field_id => !this.field_validity[field_id]);
+                    return amenities_invalid || other_fields_invalid;
+                },
+
+                async validate_step(step){
+                    if(step === 3){
+                        this.amenities_error = this.amenities.some(a => !a || !a.trim());
+                        return !this.amenities_error;
+                    }
+
+                    const fields = this.step_fields[step];
+                    if(!fields){
+                        return true;
+                    }
+
+                    const results = await Promise.all(
+                        fields.map(field_id => this.validator.revalidateField(field_id))
+                    );
+                    return results.every(is_valid => is_valid);
+                },
+
+                async next_step(){
+                    const step_is_valid = await this.validate_step(this.step);
+                    if(!step_is_valid){
+                        return;
+                    }
+                    if(this.step < this.max_steps){
+                        localStorage.setItem('create_property_step', this.step + 1);
+                        this.step++;
+                    }
+                },
+                previous_step(){
+                    if(this.step > 1){
+                        localStorage.setItem('create_property_step', this.step - 1);
+                        this.step--;
+                    }
+                }, 
+                change_step(step){
+                    if(step >= 1 && step <= this.max_steps){
+                        localStorage.setItem('create_property_step', step);
+                        this.step = step;
+                    }
+                },
+                setup_field_listener(field_id){
+                    const el = document.querySelector(field_id);
+                    const revalidate = async () => {
+                        this.field_validity[field_id] = await this.validator.revalidateField(field_id);
+                        this.is_form_valid = this.validator.isValid;
+                    };
+                    el.addEventListener('input', revalidate);
+                    el.addEventListener('change', revalidate);
+                },
+                init(){
+                    this.validator = new JustValidate('#create_property_form', {
+                        errorLabelCssClass: 'fd-error-message',
+                        submitFormAutomatically: true,
+                    }),
+                    this.validator.addField('#developer', [
+                        {
+                            rule: 'required',
+                            errorMessage: 'Developer is required',
+                        }
+                    ]);
+                    this.validator.addField('#property_type', [
+                        {
+                            rule: 'required',
+                            errorMessage: 'Property type is required',
+                        }
+                    ]);
+                    this.validator.addField('#status', [
+                        {
+                            rule: 'required',
+                            errorMessage: 'Status is required',
+                        }
+                    ]);
+                    this.validator.addField('#location', [
+                        {
+                            rule: 'required',
+                            errorMessage: 'Location is required',
+                        },
+                        {
+                            rule: 'maxLength',
+                            value: 255,
+                            errorMessage: 'Location must be less than 255 characters',
+                        }
+                    ]);
+                    this.validator.addField('#name', [
+                        {
+                            rule: 'required',
+                            errorMessage: 'Name is required',
+                        },
+                        {
+                            rule: 'maxLength',
+                            value: 100,
+                            errorMessage: 'Name must be less than 100 characters',
+                        }
+                    ]);
+                    this.validator.addField('#description', [
+                        {
+                            rule: 'required',
+                            errorMessage: 'Description is required',
+                        },
+                        {
+                            rule: 'maxLength',
+                            value: 1000,
+                            errorMessage: 'Description must be less than 1000 characters',
+                        }
+                    ]);
+                    this.validator.addField('#start_price_range', [
+                        {
+                            rule: 'required',
+                            errorMessage: 'Start Price Range is required',
+                        },
+                        {
+                            rule: 'number',
+                            errorMessage: 'Start Price Range must be a number',
+                        }
+                    ]);
+                    this.validator.addField('#end_price_range', [
+                        {
+                            rule: 'required',
+                            errorMessage: 'End Price Range is required',
+                        },
+                        {
+                            rule: 'number',
+                            errorMessage: 'End Price Range must be a number',
+                        }
+                    ]);
+                    const tracked_fields = [
+                        '#developer', '#property_type', '#status', '#location',
+                        '#name', '#description', '#start_price_range', '#end_price_range',
+                    ];
+                    tracked_fields.forEach(field_id => {
+                        this.field_validity[field_id] = this.compute_initial_validity(field_id);
+                        this.setup_field_listener(field_id);
+                    });
+                }
+            }
+        }
+    </script>
 {% endblock %}
