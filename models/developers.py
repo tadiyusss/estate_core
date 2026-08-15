@@ -14,10 +14,11 @@ class Developer(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     def delete(self):
+
+        db.session.delete(self)
+        db.session.commit()
+
         if self.logo:
             logo_path = os.path.join('media', self.logo)
             if os.path.exists(logo_path):
                 os.remove(logo_path)
-
-        db.session.delete(self)
-        db.session.commit()

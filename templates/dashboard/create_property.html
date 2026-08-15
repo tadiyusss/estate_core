@@ -81,6 +81,42 @@
                     <p class="fd-error-message">{{ error }}</p>
                 {% endfor %}
             </div>
+            <div class="flex items-center w-full space-x-4">
+                <div class="w-full">
+                    {{ form.min_lot_size.label(class="fd-form-label") }}
+                    {{ form.min_lot_size }}
+                    <small class="text-xs text-gray-600">{{ form.min_lot_size.description }}</small>
+                    {% for error in form.min_lot_size.errors %}
+                        <p class="fd-error-message">{{ error }}</p>
+                    {% endfor %}
+                </div>
+                <div class="w-full">
+                    {{ form.max_lot_size.label(class="fd-form-label") }}
+                    {{ form.max_lot_size }}
+                    <small class="text-xs text-gray-600">{{ form.max_lot_size.description }}</small>
+                    {% for error in form.max_lot_size.errors %}
+                        <p class="fd-error-message">{{ error }}</p>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="flex items-center w-full space-x-4">
+                <div class="w-full">
+                    {{ form.min_floor_area.label(class="fd-form-label") }}
+                    {{ form.min_floor_area }}
+                    <small class="text-xs text-gray-600">{{ form.min_floor_area.description }}</small>
+                    {% for error in form.min_floor_area.errors %}
+                        <p class="fd-error-message">{{ error }}</p>
+                    {% endfor %}
+                </div>
+                <div class="w-full">
+                    {{ form.max_floor_area.label(class="fd-form-label") }}
+                    {{ form.max_floor_area }}
+                    <small class="text-xs text-gray-600">{{ form.max_floor_area.description }}</small>
+                    {% for error in form.max_floor_area.errors %}
+                        <p class="fd-error-message">{{ error }}</p>
+                    {% endfor %}
+                </div>
+            </div>
             <button type="button" class="fd-btn fd-btn-secondary fd-btn-block" :disabled="is_next_disabled()" :disabled="is_next_disabled()" @click="next_step()" >Next</button>
         </div>
     </div>
@@ -335,9 +371,21 @@
                             errorMessage: 'End Price Range must be a number',
                         }
                     ]);
+                    this.validator.addField('#min_floor_area', [
+                        {
+                            rule: 'number',
+                            errorMessage: 'Min Floor Area must be a number',
+                        }
+                    ]);
+                    this.validator.addField('#max_floor_area', [
+                        {
+                            rule: 'number',
+                            errorMessage: 'Max Floor Area must be a number',
+                        }
+                    ]);
                     const tracked_fields = [
                         '#developer', '#property_type', '#status', '#location',
-                        '#name', '#description', '#start_price_range', '#end_price_range',
+                        '#name', '#description', '#start_price_range', '#end_price_range', '#min_floor_area', '#max_floor_area'
                     ];
                     tracked_fields.forEach(field_id => {
                         this.field_validity[field_id] = this.compute_initial_validity(field_id);

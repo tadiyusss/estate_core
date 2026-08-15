@@ -46,6 +46,12 @@ def create_property_type():
 @roles_required(['Administrator', 'Editor'])
 def delete_property_type(property_type_uuid):
     property_type = PropertyType.query.filter_by(uuid=property_type_uuid).first_or_404()
+    property_listings = property_type.properties
+
+    if property_listings:
+        flash('Cannot delete property type with associated property listings. Please delete the properties first.', 'danger')
+        return redirect(url_for('estate_core.manage_developers'))
+
     db.session.delete(property_type)
     db.session.commit()
     flash('Property type deleted successfully!', 'success')
@@ -106,6 +112,12 @@ def create_developer():
 @roles_required(['Administrator', 'Editor'])
 def delete_developer(developer_uuid):
     developer = Developer.query.filter_by(uuid=developer_uuid).first_or_404()
+    property_listings = developer.properties
+
+    if property_listings:
+        flash('Cannot delete developer with associated property listings. Please delete the properties first.', 'danger')
+        return redirect(url_for('estate_core.manage_developers'))
+    
     developer.delete()
     flash('Developer deleted successfully!', 'success')
     return redirect(url_for('estate_core.manage_developers'))
