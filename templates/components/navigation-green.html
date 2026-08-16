@@ -9,7 +9,7 @@
             <a href="{{ url_for('estate_core.index') }}" class="text-white md:flex block transition px-2 py-1">Home</a>
             <a href="{{ url_for('estate_core.about_us') }}" class="text-white md:flex block transition px-2 py-1">About Us</a>
             <a href="#" class="text-white md:flex block transition px-2 py-1">Developers</a>
-            <a href="#" class="text-white md:flex block transition px-2 py-1">Property Listing</a>
+            <a href="{{ url_for('estate_core.property_listing') }}" class="text-white md:flex block transition px-2 py-1">Property Listing</a>
             <a href="#">
                 <a href="{{ url_for('estate_core.contact_us') }}" class="bg-white rounded md:rounded-lg md:px-4 md:py-2 px-2 py-1 text-sm border border-white hover:bg-emerald-950 hover:text-white hover:border hover:border-white text-zinc-900 flex items-center space-x-2 cursor-pointer transition duration-300">
                     <span>Contact Us</span>
