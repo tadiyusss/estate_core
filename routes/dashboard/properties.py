@@ -155,8 +155,8 @@ def edit_property(property_uuid):
             db.session.commit()
 
             for image in form.images.data:
-                if image:
-                    filename = secure_filename(image.filename)
+                if image and hasattr(image, 'filename') and image.filename != '':
+                    filename = secure_filename(image.image_filename)
                     unique_filename = f"{uuid.uuid4().hex}_{filename}"
                     image.save(f"media/{unique_filename}")
                     new_image = PropertyImage(property_id=property_listing.id, image_filename=unique_filename)
