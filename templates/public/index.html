@@ -62,15 +62,14 @@
         </a>
     </section>
     <section class="py-24 w-full">
-        <div class="max-w-7xl p-4 mx-auto grid grid-cols-3 gap-4">
+        <div class="max-w-7xl p-4 mx-auto grid md:grid-cols-3 grid-cols-1 gap-4">
             {% for testimonial in testimonials %}
             <div class="space-y-4">
                 <blockquote class="tracking-tight italic text-light {% if loop.index % 2 == 0 %} text-zinc-900 {% else %} text-emerald-800 {% endif %} text-2xl p-4">"Lorem ipsum dolor sit, amet consectetur adipisicing elit. Numquam mollitia ad, sint incidunt nobis quae cumque fugit sit repudiandae eligendi ipsam ullam, facere voluptates, repellat natus sequi facilis. Vero, autem!"  </blockquote>
                 <div class="{% if loop.index % 2 == 0 %} bg-emerald-950 {% else %} bg-emerald-800 {% endif %} p-4 flex items-center space-x-4">
                     <img src="{{ url_for('media.serve_media', filename=testimonial.image) }}" alt="{{ testimonial.name }}" class="size-12 rounded-full object-cover" srcset="">
                     <div class="">
-                        <h6 class="text-white">Thaddeus Toledo</h6>
-                        <p class="text-sm text-emerald-200/80">Real Estate Agent</p>
+                        <h6 class="text-white">{{ testimonial.name }}</h6>
                     </div>
                 </div>
             </div>
