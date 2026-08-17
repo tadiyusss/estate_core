@@ -1,22 +1,34 @@
-<nav class="p-4 flex items-center justify-between bg-emerald-950 text-white">
+<nav class="p-4 flex items-center justify-between bg-emerald-950 text-white" x-data="{open_nav: false}">
     <div class="max-w-7xl w-full mx-auto md:flex md:items-center md:justify-between">
-        {% if g.settings['website_logo'] %} 
-        <img src="{{ url_for('media.serve_media', filename=g.settings['website_logo']) }}" alt="Website Logo" class="size-16"> 
-        {% else %} 
-        <img src="{{ url_for('static', filename='images/default-logo.png') }}" alt="Website Logo" class="size-16"> 
-        {% endif %}
-        <div class="md:flex md:items-center space-x-4 space-y-1 md:space-y-0 md:mt-0 mt-4">
+        <div class="flex items-center justify-between">
+            {% if g.settings['website_logo'] %} 
+            <img src="{{ url_for('media.serve_media', filename=g.settings['website_logo']) }}" alt="Website Logo" class="size-16"> 
+            {% else %} 
+            <img src="{{ url_for('static', filename='images/default-logo.png') }}" alt="Website Logo" class="size-16"> 
+            {% endif %}
+            <button @click.stop="open_nav = !open_nav" class="border border-emerald-500/80 p-2 rounded md:hidden focus:outline-none focus:ring-2 focus:ring-emerald-500" id="menu-toggle">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4 text-emerald-500/80">
+                    <path fill-rule="evenodd" d="M2 3.75A.75.75 0 0 1 2.75 3h10.5a.75.75 0 0 1 0 1.5H2.75A.75.75 0 0 1 2 3.75ZM2 8a.75.75 0 0 1 .75-.75h10.5a.75.75 0 0 1 0 1.5H2.75A.75.75 0 0 1 2 8Zm0 4.25a.75.75 0 0 1 .75-.75h10.5a.75.75 0 0 1 0 1.5H2.75a.75.75 0 0 1-.75-.75Z" clip-rule="evenodd" />
+                </svg>
+            </button>
+        </div>
+        <div 
+            class="md:flex md:items-center space-x-4 space-y-1 md:space-y-0 space-y-4 md:mt-0 mt-4"
+            :class="open_nav ? 'block' : 'hidden'"
+            @click.outside="open_nav = false" 
+            id="menu"
+        >
             <a href="{{ url_for('estate_core.index') }}" class="text-white md:flex block transition px-2 py-1">Home</a>
             <a href="{{ url_for('estate_core.about_us') }}" class="text-white md:flex block transition px-2 py-1">About Us</a>
             <a href="#" class="text-white md:flex block transition px-2 py-1">Developers</a>
             <a href="{{ url_for('estate_core.property_listing') }}" class="text-white md:flex block transition px-2 py-1">Property Listing</a>
-            <a href="#">
-                <a href="{{ url_for('estate_core.contact_us') }}" class="bg-white rounded md:rounded-lg md:px-4 md:py-2 px-2 py-1 text-sm border border-white hover:bg-emerald-950 hover:text-white hover:border hover:border-white text-zinc-900 flex items-center space-x-2 cursor-pointer transition duration-300">
+            <a href="{{ url_for('estate_core.contact_us') }}" class="ml-2 inline-block bg-white rounded md:rounded-lg md:px-4 md:py-2 px-2 py-1 text-sm border border-white hover:bg-emerald-950 hover:text-white hover:border hover:border-white text-zinc-900 cursor-pointer transition duration-300">
+                <div class="flex items-center space-x-2">
                     <span>Contact Us</span>
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
                         <path fill-rule="evenodd" d="M2 10a.75.75 0 0 1 .75-.75h12.59l-2.1-1.95a.75.75 0 1 1 1.02-1.1l3.5 3.25a.75.75 0 0 1 0 1.1l-3.5 3.25a.75.75 0 1 1-1.02-1.1l2.1-1.95H2.75A.75.75 0 0 1 2 10Z" clip-rule="evenodd" />
                     </svg>
-                </a>
+                </div>
             </a>
         </div>
     </div>
