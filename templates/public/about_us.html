@@ -5,26 +5,26 @@
     <section class="bg-emerald-950 text-white py-16">
         <div class="max-w-7xl mx-auto p-4 text-center space-y-6">
             <div>
-                <h1 class="text-4xl font-semibold tracking-tight">From Ayala Land's Finest Team</h1>
-                <p class="text-gray-200 max-w-2xl text-gray-400 mx-auto">Experience exceptional service and trusted expertise from the team behind some of the Philippines’ finest properties.</p>
+                <h1 class="md:text-4xl text-2xl font-semibold tracking-tight">From Ayala Land's Finest Team</h1>
+                <p class="text-gray-200 max-w-2xl md:text-base text-sm text-gray-400 mx-auto">Experience exceptional service and trusted expertise from the team behind some of the Philippines’ finest properties.</p>
             </div>
-            <div class="flex items-center justify-center space-x-6 md:space-x-12 flex-wrap">
-                <img src="https://placehold.co/250x250" class="rounded size-32 object-cover" alt="Team Member 1">
-                <img src="https://placehold.co/250x250" class="rounded size-32 object-cover" alt="Team Member 1">
-                <img src="https://placehold.co/250x250" class="rounded size-32 object-cover" alt="Team Member 1">
+            <div class="grid grid-cols-3 mx-auto max-w-2xl gap-8">
+                <img src="https://placehold.co/250x250" class="rounded w-full object-cover" alt="Team Member 1">
+                <img src="https://placehold.co/250x250" class="rounded w-full object-cover" alt="Team Member 1">
+                <img src="https://placehold.co/250x250" class="rounded w-full object-cover" alt="Team Member 1">
             </div>
         </div>
     </section>
     <section class="bg-gray-100">
-        <div class="max-w-7xl mx-auto px-4 pt-16 text-center space-y-16">
+        <div class="max-w-7xl mx-auto px-4 py-18 text-center space-y-16">
             <div class="space-y-1">
                 <h4 class="text-4xl font-medium tracking-tight">Meet The Team</h4>
                 <p class="text-gray-500">Get to know the dedicated professionals who make our vision a reality.</p>
             </div>
-            <div class="p-4 flex items-center justify-center space-x-16">
+            <div class="grid md:grid-cols-3 grid-cols-1 gap-8">
                 {% for member in team_members %}
-                    <div class="space-y-2 {% if loop.index == 2 %} mb-32 {% endif %}">
-                        <img src="{{ url_for('media.serve_media', filename=member.image) }}" class="rounded w-64 h-96 object-cover rounded-2xl" alt="{{ member.name }}">
+                    <div class="space-y-2 mx-auto md:space-y-0 space-y-4 {% if loop.index != 2 %} md:pt-16 {% endif %}">
+                        <img src="{{ url_for('media.serve_media', filename=member.image) }}" class="rounded md:w-64 w-full h-96 object-cover rounded-2xl" alt="{{ member.name }}">
                         <div class="py-1">
                             <h5 class="text-lg font-medium">{{ member.name }}</h5>
                             <p class="text-gray-600 text-sm">{{ member.role }}</p>
@@ -35,14 +35,14 @@
         </div>
     </section>
     <section class="bg-emerald-950 w-full py-16 text-center space-y-2">
-        <h4 class="text-white text-4xl font-semibold">Book a Consultation</h4>
-        <p class="text-gray-200 max-w-2xl mx-auto">Schedule a consultation with our team to discuss your real estate needs and explore the best options for you.</p>
-        <button class="bg-white text-emerald-950 px-6 py-3 font-medium rounded mt-4 hover:bg-gray-200 transition">Book Now</button>
+        <h4 class="text-white md:text-4xl text-2xl font-semibold">Book a Consultation</h4>
+        <p class="text-gray-200 max-w-2xl mx-auto md:text-base text-sm">Schedule a consultation with our team to discuss your real estate needs and explore the best options for you.</p>
+        <button class="bg-white text-emerald-950 md:px-6 md:py-3 px-4 py-2 font-medium rounded mt-4 hover:bg-gray-200 transition">Book Now</button>
     </section>
-    <section class="w-full py-16 text-center space-y-8">
+    <section class="w-full py-16 md:text-center space-y-8 p-4">
         <div class="space-y-2">
-            <h1 class="tracking-tight text-4xl font-medium">Visit Us for a Consultation</h1>
-            <p class="text-gray-600 text-base">Explore your property options with our team through a personalized, face-to-face consultation.</p>
+            <h1 class="tracking-tight md:text-4xl text-2xl font-medium">Visit Us for a Consultation</h1>
+            <p class="text-gray-600 md:text-base text-sm">Explore your property options with our team through a personalized, face-to-face consultation.</p>
         </div>
         <div class="text-left max-w-7xl mx-auto">
             <h4 class="text-xl font-medium">Our Office</h4>
