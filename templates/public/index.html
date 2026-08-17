@@ -2,5 +2,64 @@
 {% block title %}Home{% endblock %}
 {% block content %}
     {% include "components/navigation-green.html" %}
+    <section class="w-full grid md:grid-cols-2 grid-cols-1 gap-16 py-16 max-w-6xl mx-auto p-4">
+        <div class="">
+            <img src="https://placehold.co/250x250" alt="" class="w-full max-h-[400px] object-cover rounded-lg shadow">
+        </div>
+        <div class="max-w-2xl mx-auto flex items-center justify-center">
+            <div class="space-y-8">
+                <div class="p-1 max-w-xs bg-gradient-to-r from-emerald-950 to-white"></div>
+                <div class="space-y-1">
+                    <h2 class="text-4xl tracking-tight">You're in good hands</h2>
+                    <p class="text-gray-700">Torquatos nostros? quos dolores eos, qui dolorem ipsum per se texit, ne ferae quidem se repellere, idque instituit docere sic: omne animal, simul atque integre iudicante itaque aiunt hanc quasi involuta aperiri, altera occulta quaedam et voluptatem accusantium doloremque.</p>
+                </div>
+                <a href="#" class="inline-block px-4 py-2 bg-emerald-800 text-white rounded-lg hover:bg-emerald-900 transition duration-300 ease-in-out">
+                    <div class="flex items-center space-x-2">
+                        <span class="">Learn More</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4">
+                            <path fill-rule="evenodd" d="M2 8c0 .414.336.75.75.75h8.69l-1.22 1.22a.75.75 0 1 0 1.06 1.06l2.5-2.5a.75.75 0 0 0 0-1.06l-2.5-2.5a.75.75 0 1 0-1.06 1.06l1.22 1.22H2.75A.75.75 0 0 0 2 8Z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+    <section class="w-full grid md:grid-cols-2 grid-cols-1 gap-16 py-16 max-w-6xl mx-auto p-4">
+        <div class="max-w-2xl mx-auto flex items-center justify-center">
+            <div class="space-y-8">
+                <div class="p-1 max-w-xs bg-gradient-to-r from-emerald-950 to-white"></div>
+                <div class="space-y-1">
+                    <h2 class="text-4xl tracking-tight">Ready to Find Your Next Home?</h2>
+                    <p class="text-gray-700">Whether you're looking for a condominium, house and lot, or residential lot, our team is here to help you com pare properties, answer your questions, and schedule a property viewing.</p>
+                </div>
+                <a href="#" class="inline-block px-4 py-2 bg-emerald-800 text-white rounded-lg hover:bg-emerald-900 transition duration-300 ease-in-out">
+                    <div class="flex items-center space-x-2">
+                        <span class="">Learn More</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4">
+                            <path fill-rule="evenodd" d="M2 8c0 .414.336.75.75.75h8.69l-1.22 1.22a.75.75 0 1 0 1.06 1.06l2.5-2.5a.75.75 0 0 0 0-1.06l-2.5-2.5a.75.75 0 1 0-1.06 1.06l1.22 1.22H2.75A.75.75 0 0 0 2 8Z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="">
+            <img src="https://placehold.co/250x250" alt="" class="w-full max-h-[400px] object-cover rounded-lg shadow">
+        </div>
+    </section>
+    <section class="py-24 bg-gradient-to-tr from-zinc-950 to-emerald-900 text-center text-white space-y-4">
+        <div class="space-y-2">
+            <div class="p-0.5 max-w-xs bg-gradient-to-r from-emerald-950 to-white mx-auto"></div>
+            <h2 class="text-4xl font-semibold tracking-tight">Building Better Communities for Every Generation</h2>
+        </div>
+        <p class="text-emerald-200/80 max-w-2xl md:text-base text-sm mx-auto">Ayala Land develops sustainable residential communities designed to provide comfort, convenience, and lasting value for homeowners and investors across the Philippines.</p>
+        <a href="#" class="inline-block px-4 py-2 bg-emerald-800 text-white rounded-lg hover:bg-emerald-900 transition duration-300 ease-in-out">
+            <div class="flex items-center space-x-2">
+                <span class="">Learn More</span>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4">
+                    <path fill-rule="evenodd" d="M2 8c0 .414.336.75.75.75h8.69l-1.22 1.22a.75.75 0 1 0 1.06 1.06l2.5-2.5a.75.75 0 0 0 0-1.06l-2.5-2.5a.75.75 0 1 0-1.06 1.06l1.22 1.22H2.75A.75.75 0 0 0 2 8Z" clip-rule="evenodd" />
+                </svg>
+            </div>
+        </a>
+    </section>
     {% include "components/footer.html" %}
 {% endblock %}

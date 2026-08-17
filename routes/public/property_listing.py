@@ -20,7 +20,7 @@ def property_listing():
     property_listings = PropertyListing.query
 
     locations = db.session.query(PropertyListing.location).distinct().all()
-    prices = db.session.query(PropertyListing.start_price_range).distinct().all()
+    prices = db.session.query(PropertyListing.start_price_range).distinct().order_by(PropertyListing.start_price_range.asc()).all()
     property_types = PropertyType.query.all()
 
     form.property_type.choices = [("", "All Types")] + [(ptype.name, ptype.name) for ptype in property_types]
