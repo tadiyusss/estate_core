@@ -14,7 +14,6 @@ def contact_us():
     form = ContactUsForm()
     office_locations = OfficeLocation.query.order_by(OfficeLocation.created_at.desc()).all()
     phone_numbers = PhoneNumber.query.order_by(PhoneNumber.created_at.desc()).all()
-    # get 3 most recent property listings
     recent_properties = PropertyListing.query.order_by(PropertyListing.created_at.desc()).limit(3).all()
 
     if form.validate_on_submit():
