@@ -12,10 +12,10 @@
 
     <section class="w-full py-16">
         <div class="max-w-7xl mx-auto p-4">
-            <div class="grid grid-cols-3 gap-4">
+            <div class="grid md:grid-cols-3 grid-cols-1 gap-4">
                 {% for developer in developers %}
                 <a href="{{ url_for('estate_core.property_listing', developer=developer.name) }}" class="w-full h-[600px] bg-cover bg-center border border-gray-100 rounded-lg shadow-lg" style="background-image: url('{{ url_for('media.serve_media', filename=developer.logo) }}')">
-                    <div class="w-full h-full bg-gradient-to-t from-zinc-800 to-transparent opacity-0 hover:opacity-100 transition duration-300 ease-in-out rounded-lg">
+                    <div class="w-full h-full bg-gradient-to-t from-zinc-800 to-transparent hover:from-zinc-950 transition duration-300 ease-in-out rounded-lg">
                         <div class="h-full flex flex-col p-4">
                             <div class="mt-auto space-y-1">
                                 <h2 class="text-white font-semibold text-lg">{{ developer.name }}</h2>
