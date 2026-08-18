@@ -1,15 +1,16 @@
 {% extends "public/base.html" %}
 {% block title %}Home{% endblock %}
 {% block content %}
+    {% include "components/navigation-transparent.html" %}
     <section x-data="{ muted: true }" class="relative h-screen overflow-hidden">
         <video autoplay muted loop playsinline class="absolute inset-0 w-full h-full object-cover">
             <source src="{{ url_for('media.serve_media', filename=g.settings['hero_section_background_video']) }}" type="video/mp4">
         </video>
-        <div class="absolute inset-0 bg-gradient-to-t from-zinc-950 to-transparent"></div>
-        <div class="relative z-10 p-4 w-full max-w-7xl mx-auto my-64">
+        <div class="absolute inset-0 bg-gradient-to-t from-zinc-950 to-zinc-950/10"></div>
+        <div class="relative z-10 p-4 w-full max-w-7xl mx-auto md:my-64 my-48">
             <div class="max-w-4xl space-y-4">
-                <h1 class="text-white text-6xl font-bold tracking-tight">Find the Home That Fits Your Future.</h1>
-                <p class="text-gray-400 text-2xl font-medium">Discover thoughtfully planned communities by Ayala Land, offering condominiums, house and lot developments, and residential lots in prime locations across the Philippines.</p>
+                <h1 class="text-white md:text-6xl text-4xl font-bold tracking-tight">Find the Home That Fits Your Future.</h1>
+                <p class="text-gray-400 md:text-2xl text-lg font-medium">Discover thoughtfully planned communities by Ayala Land, offering condominiums, house and lot developments, and residential lots in prime locations across the Philippines.</p>
                 <a href="{{ url_for('estate_core.property_listing') }}" class="inline-flex items-center space-x-2 px-4 py-2 bg-white rounded-lg hover:bg-gray-100 transition duration-300 ease-in-out">
                     <p class="">See All Listings</p>
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4">
