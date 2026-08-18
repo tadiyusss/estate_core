@@ -44,7 +44,7 @@
             {% if property_listings|length > 0 %}
             <div class="grid md:grid-cols-3 grid-cols-1 md:gap-4 gap-10">
                 {% for property in property_listings %}
-                    <a href="#" class="col-span-1 space-y-2">
+                    <a href="{{ url_for('estate_core.property_listing_detail', property_uuid=property.uuid) }}" class="col-span-1 space-y-2">
                         <img src="{{ url_for('media.serve_media', filename=property.images[0].image_filename) }}" alt="{{ property.title }}" class="w-full h-[600px] object-cover rounded-xl">
                         <div class="space-y-2">
                             <h2 class="font-medium text-emerald-800 text-lg">{{ property.name }}</h2>

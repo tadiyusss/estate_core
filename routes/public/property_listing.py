@@ -52,3 +52,21 @@ def property_listing():
 
     return render_template('public/property_listing.html', property_listings=property_listings.all(), form=form)
 
+
+@bp.route('/property-listing/<string:property_uuid>', methods=['GET'])
+@track_visitor
+def property_listing_detail(property_uuid):
+    property_listing = PropertyListing.query.filter_by(uuid=property_uuid).first_or_404()
+    similar_properties = (
+        PropertyListing.query.filter(
+            PropertyListing.uuid != property_listing.uuid
+        )
+        .filter(
+            (PropertyListing.location == property_listing.location)
+            | (PropertyListing.start_price_range == property_listing.start_price_range)
+            | (PropertyListing.developer_id == property_listing.developer_id)
+        )
+        .limit(3)
+        .all()
+    )
+    return render_template('public/property_listing_detail.html', property_listing=property_listing, similar_properties=similar_properties)
