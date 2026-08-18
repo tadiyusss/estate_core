@@ -65,7 +65,7 @@
         <div class="max-w-7xl p-4 mx-auto grid md:grid-cols-3 grid-cols-1 gap-4">
             {% for testimonial in testimonials %}
             <div class="space-y-4">
-                <blockquote class="tracking-tight italic text-light {% if loop.index % 2 == 0 %} text-zinc-900 {% else %} text-emerald-800 {% endif %} text-2xl p-4">"Lorem ipsum dolor sit, amet consectetur adipisicing elit. Numquam mollitia ad, sint incidunt nobis quae cumque fugit sit repudiandae eligendi ipsam ullam, facere voluptates, repellat natus sequi facilis. Vero, autem!"  </blockquote>
+                <blockquote class="tracking-tight italic text-light {% if loop.index % 2 == 0 %} text-zinc-900 {% else %} text-emerald-800 {% endif %} text-2xl p-4">"{{ testimonial.content }}"</blockquote>
                 <div class="{% if loop.index % 2 == 0 %} bg-emerald-950 {% else %} bg-emerald-800 {% endif %} p-4 flex items-center space-x-4">
                     <img src="{{ url_for('media.serve_media', filename=testimonial.image) }}" alt="{{ testimonial.name }}" class="size-12 rounded-full object-cover" srcset="">
                     <div class="">
