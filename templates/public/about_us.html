@@ -8,10 +8,19 @@
                 <h1 class="md:text-4xl text-2xl font-semibold tracking-tight">From Ayala Land's Finest Team</h1>
                 <p class="text-gray-200 max-w-2xl md:text-base text-sm text-gray-400 mx-auto">Experience exceptional service and trusted expertise from the team behind some of the Philippines’ finest properties.</p>
             </div>
-            <div class="grid grid-cols-3 mx-auto max-w-2xl gap-8">
-                <img src="https://placehold.co/250x250" class="rounded w-full object-cover" alt="Team Member 1">
-                <img src="https://placehold.co/250x250" class="rounded w-full object-cover" alt="Team Member 1">
-                <img src="https://placehold.co/250x250" class="rounded w-full object-cover" alt="Team Member 1">
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 items-center mx-auto max-w-2xl">
+                <div class="flex items-center justify-center">
+                    <img src="{{ url_for('estate_core.static', filename='images/team-olympus-logo.png') }}" class="h-20 sm:h-40 object-contain rounded" alt="Team Logo">
+                </div>
+                <div class="flex items-center justify-center">
+                    <img src="{{ url_for('estate_core.static', filename='images/ayalaland-logo.png') }}" class="h-20 sm:h-40 object-contain rounded" alt="Team Logo">
+                </div>
+                <div class="flex items-center justify-center">
+                    <img src="{{ url_for('estate_core.static', filename='images/investors-address-logo.png') }}" class="h-20 sm:h-40 object-contain rounded" alt="Team Logo">
+                </div>
+                <div class="flex items-center justify-center">
+                    <img src="{{ url_for('estate_core.static', filename='images/team-artemis-logo.png') }}" class="h-20 sm:h-40 object-contain rounded" alt="Team Logo">
+                </div>
             </div>
         </div>
     </section>

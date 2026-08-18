@@ -3,14 +3,16 @@ from flask import render_template, request, redirect, url_for, flash
 from core.extensions import db
 from flask_login import current_user
 from extensions.estate_core.models.property_types import PropertyType
+from extensions.landing_page.decorators.visitor_tracker import track_visitor
 from extensions.landing_page.forms.contact_us import ContactUsForm
 from extensions.landing_page.models import TeamMember
 from extensions.landing_page.models import ContactUs
 from extensions.landing_page.models.testimonial import Testimonial
 from extensions.estate_core.forms.filters.public_property_listing import FilterPublicPropertyListingForm
 from extensions.estate_core.models import PropertyListing
-
+from extensions.estate_core.models import Developer
 @bp.route('/', methods=['GET', 'POST'])
+@track_visitor
 def index():
     form = ContactUsForm()
     filter_form = FilterPublicPropertyListingForm()
@@ -22,11 +24,12 @@ def index():
     locations = db.session.query(PropertyListing.location).distinct().all()
     prices = db.session.query(PropertyListing.start_price_range).distinct().order_by(PropertyListing.start_price_range.asc()).all()
     property_types = PropertyType.query.all()
+    developers = db.session.query(Developer.name).distinct().all()
     
     filter_form.property_type.choices = [("", "All Types")] + [(ptype.name, ptype.name) for ptype in property_types]
     filter_form.price.choices = [("", "All Prices")] + [(price[0], f"₱{price[0]:,.2f}") for price in prices]
     filter_form.location.choices = [("", "All Locations")] + [(loc[0], loc[0]) for loc in locations]
-
+    filter_form.developer.choices = [("", "All Developers")] + [(dev[0], dev[0]) for dev in developers]
 
     if form.validate_on_submit():
         contact_us_entry = ContactUs(

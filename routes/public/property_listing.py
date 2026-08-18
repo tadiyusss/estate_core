@@ -3,7 +3,8 @@ from flask import render_template, request, redirect, url_for, flash
 from core.extensions import db
 from extensions.estate_core.models import PropertyListing
 from extensions.estate_core.forms.filters.public_property_listing import FilterPublicPropertyListingForm
-from extensions.estate_core.models import PropertyType
+from extensions.estate_core.models import PropertyType, Developer
+from extensions.landing_page.decorators.visitor_tracker import track_visitor
 
 @bp.app_template_global()
 def format_price(price):
@@ -15,6 +16,7 @@ def format_price(price):
     return f"₱{price:,.2f}"
 
 @bp.route('/property-listing', methods=['GET', 'POST'])
+@track_visitor
 def property_listing():
     form = FilterPublicPropertyListingForm()
     property_listings = PropertyListing.query
@@ -22,10 +24,12 @@ def property_listing():
     locations = db.session.query(PropertyListing.location).distinct().all()
     prices = db.session.query(PropertyListing.start_price_range).distinct().order_by(PropertyListing.start_price_range.asc()).all()
     property_types = PropertyType.query.all()
+    developers = db.session.query(Developer.name).distinct().all()
 
     form.property_type.choices = [("", "All Types")] + [(ptype.name, ptype.name) for ptype in property_types]
     form.price.choices = [("", "All Prices")] + [(price[0], f"₱{price[0]:,.2f}") for price in prices]
     form.location.choices = [("", "All Locations")] + [(loc[0], loc[0]) for loc in locations]
+    form.developer.choices = [("", "All Developers")] + [(dev[0], dev[0]) for dev in developers]
 
     if request.args.get('location'):
         property_listings = property_listings.filter_by(location=request.args.get('location'))
@@ -41,6 +45,10 @@ def property_listing():
         if property_type:
             property_listings = property_listings.filter_by(property_type=property_type)
         form.property_type.data = request.args.get('property_type')
+    if request.args.get('developer'):
+        developer_name = request.args.get('developer')
+        property_listings = property_listings.join(PropertyListing.developer).filter_by(name=developer_name)
+        form.developer.data = developer_name
 
     return render_template('public/property_listing.html', property_listings=property_listings.all(), form=form)
 
