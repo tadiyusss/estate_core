@@ -130,7 +130,6 @@ def edit_property(property_uuid):
 
     if request.method == "POST":
         if form.validate_on_submit():
-            print(form.images.data)
             property_listing.developer_id = form.developer.data
             property_listing.property_type_id = form.property_type.data
             property_listing.name = form.name.data
