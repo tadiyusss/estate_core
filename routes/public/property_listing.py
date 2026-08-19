@@ -5,6 +5,7 @@ from extensions.estate_core.models import PropertyListing
 from extensions.estate_core.forms.filters.public_property_listing import FilterPublicPropertyListingForm
 from extensions.estate_core.models import PropertyType, Developer
 from extensions.landing_page.decorators.visitor_tracker import track_visitor
+from extensions.estate_core.models.property_listing import STATUS_CHOICES
 
 @bp.app_template_global()
 def format_price(price):
@@ -69,4 +70,4 @@ def property_listing_detail(property_uuid):
         .limit(3)
         .all()
     )
-    return render_template('public/property_listing_detail.html', property_listing=property_listing, similar_properties=similar_properties)
+    return render_template('public/property_listing_detail.html', property_listing=property_listing, similar_properties=similar_properties, STATUS_CHOICES=dict(STATUS_CHOICES))

@@ -7,7 +7,7 @@
         <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
         <script src="{{ url_for('static', filename='js/app.js') }}"></script>
         <link rel="stylesheet" href="{{ url_for('estate_core.static', filename='css/font.css') }}">
-
+        {% block head %}{% endblock %}
     </head>
     <body>
         {% block content %}{% endblock %}

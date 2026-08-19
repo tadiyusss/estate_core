@@ -93,7 +93,7 @@
             </div>
             <div class="grid md:grid-cols-3 grid-cols-1 md:gap-4 gap-8">
                 {% for property in recent_properties %}
-                    <a href="#" class="col-span-1 space-y-2">
+                    <a href="{{ url_for('estate_core.property_listing_detail', property_uuid=property.uuid) }}" class="col-span-1 space-y-2">
                         <img src="{{ url_for('media.serve_media', filename=property.images[0].image_filename) }}" alt="{{ property.title }}" class="w-full h-[500px] object-cover rounded-xl">
                         <div class="">
                             <h2 class="font-medium text-lg">{{ property.name }}</h2>
