@@ -5,13 +5,14 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>{{ g.settings['site_title'] }} - {% block title %}{% endblock %}</title>
         <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
-        <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+        <script defer src="{{ url_for('static', filename='js/app.js') }}"></script>
         <link rel="stylesheet" href="{{ url_for('estate_core.static', filename='css/font.css') }}">
         {% block head %}{% endblock %}
     </head>
     <body>
         {% block content %}{% endblock %}
+        {% include 'components/chat_bubble.html' %}
+        <script src="{{ url_for('live_messages.static', filename='js/chat-bubble.js') }}"></script>
         {% block javascript %}{% endblock %}
     </body>
-    
 </html>
