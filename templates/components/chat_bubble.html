@@ -21,7 +21,7 @@
 			</button>
 		</div>
 		<!-- form (initial screen) -->
-		<template x-if="client_uuid == null">
+		<template x-if="client_uuid === null">
 			<div class="flex-1 flex flex-col p-5 justify-between">
 				<div class="space-y-4">
 					<p class="text-sm text-zinc-600">Before we chat, please tell us a bit about yourself</p>
@@ -50,15 +50,15 @@
 				<button @click="start_chat()" :disabled="!start_chat_form_data.fullname || !start_chat_form_data.email || !start_chat_form_data.phone_number" class="w-full bg-emerald-800 hover:bg-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-medium py-2.5 rounded-lg transition"> Start Chat </button>
 			</div>
 		</template>
-		<!-- chat (after form submission) -->
-		<template x-if="client_uuid">
-			<div class="flex flex-col h-full">
+		<template x-if="client_uuid !== null">
+			<div class="flex flex-col h-full min-h-0">
 				<!-- messages -->
-				<div class="flex-1 overflow-y-auto px-5 py-4 space-y-3" x-ref="messagesContainer">
-					<template x-for="msg in messages" :key="msg.id">
-						<div class="flex" :class="msg.sender === 'user' ? 'justify-end' : 'justify-start'">
-							<div class="max-w-xs flex flex-col" :class="msg.sender === 'user' ? 'items-end' : 'items-start'">
-								<div class="px-3.5 py-2.5 rounded-lg text-sm" :class="msg.sender === 'user'
+				<div class="flex-1 min-h-0 overflow-y-auto px-5 py-4 space-y-3" x-ref="messagesContainer">
+					<template x-for="msg in messages" :key="msg.uuid">
+						<div class="flex" :class="msg.sender === 'client' ? 'justify-end' : 'justify-start'">
+							<div class="max-w-xs flex flex-col" :class="msg.sender === 'client' ? 'items-end' : 'items-start'">
+								<p class="text-xs text-zinc-400" x-text="msg.name"></p>
+								<div class="px-3.5 py-2.5 rounded-lg text-sm" :class="msg.sender === 'client'
                     ? 'bg-emerald-800 text-white rounded-br-none'
                     : 'bg-zinc-100 text-zinc-800 rounded-bl-none'" x-text="msg.text"></div>
 								<p class="text-xs text-zinc-400 mt-1" x-text="msg.time"></p>
@@ -66,11 +66,11 @@
 						</div>
 					</template>
 				</div>
-				<!-- input -->
-				<div class="border-t border-zinc-200 p-3.5 bg-zinc-50">
-					<form @submit.prevent="sendMessage()" class="flex items-center gap-2">
-						<input x-model="newMessage" type="text" placeholder="Type your message..." class="flex-1 bg-white rounded-lg px-3.5 py-2.5 text-sm text-zinc-900 placeholder-zinc-400 outline-none focus:ring-2 focus:ring-emerald-700/30 transition border border-zinc-200" />
-						<button type="submit" :disabled="!newMessage.trim()" class="w-10 h-10 rounded-lg bg-emerald-800 text-white flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed hover:bg-emerald-700 transition shrink-0">
+				<!-- input -->	
+				<div class="shrink-0 border-t border-zinc-200 p-3.5 bg-zinc-50">
+					<form @submit.prevent="send_message()" class="flex items-center gap-2">
+						<input x-model="new_message" type="text" placeholder="Type your message..." class="flex-1 bg-white rounded-lg px-3.5 py-2.5 text-sm text-zinc-900 placeholder-zinc-400 outline-none focus:ring-2 focus:ring-emerald-700/30 transition border border-zinc-200" />
+						<button type="submit" :disabled="!new_message.trim()" class="w-10 h-10 rounded-lg bg-emerald-800 text-white flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed hover:bg-emerald-700 transition shrink-0">
 							<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
 								<path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
 							</svg>
