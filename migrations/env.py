@@ -1,3 +1,5 @@
+from core.extensions import db
+target_metadata = db.metadata
 import logging
 from logging.config import fileConfig
 
@@ -65,6 +67,7 @@ def run_migrations_offline():
     """
     url = config.get_main_option("sqlalchemy.url")
     context.configure(
+        version_table="alembic_version_estate_core",
         url=url, target_metadata=get_metadata(), literal_binds=True
     )
 
@@ -98,6 +101,7 @@ def run_migrations_online():
 
     with connectable.connect() as connection:
         context.configure(
+        version_table="alembic_version_estate_core",
             connection=connection,
             target_metadata=get_metadata(),
             **conf_args

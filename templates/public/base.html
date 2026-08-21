@@ -13,6 +13,7 @@
         {% block content %}{% endblock %}
         {% include 'components/chat_bubble.html' %}
         <script src="{{ url_for('live_messages.static', filename='js/chat-bubble.js') }}"></script>
+        <script src="{{ url_for('live_messages.static', filename='js/socketio.js') }}"></script>
         {% block javascript %}{% endblock %}
     </body>
 </html>
