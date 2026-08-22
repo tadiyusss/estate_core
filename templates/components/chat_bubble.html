@@ -65,11 +65,14 @@
 							</div>
 						</div>
 					</template>
+					<div class="flex justify-center" x-show="connected == false">
+						<span class="text-[11px] text-red-800 bg-red-100 px-3 py-1 rounded-full">You are disconnected from the server.</span>
+					</div>
 				</div>
 				<!-- input -->	
 				<div class="shrink-0 border-t border-zinc-200 p-3.5 bg-zinc-50">
 					<form @submit.prevent="send_message()" class="flex items-center gap-2">
-						<input x-model="new_message" type="text" placeholder="Type your message..." class="flex-1 bg-white rounded-lg px-3.5 py-2.5 text-sm text-zinc-900 placeholder-zinc-400 outline-none focus:ring-2 focus:ring-emerald-700/30 transition border border-zinc-200" />
+						<input x-model="new_message" type="text" :disabled="!connected" placeholder="Type your message..." class="flex-1 bg-white rounded-lg px-3.5 py-2.5 text-sm text-zinc-900 placeholder-zinc-400 outline-none focus:ring-2 focus:ring-emerald-700/30 transition border border-zinc-200 disabled:opacity-50 disabled:cursor-not-allowed" />
 						<button type="submit" :disabled="!new_message.trim()" class="w-10 h-10 rounded-lg bg-emerald-800 text-white flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed hover:bg-emerald-700 transition shrink-0">
 							<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
 								<path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
