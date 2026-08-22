@@ -30,6 +30,9 @@ class PropertyListing(db.Model):
     min_floor_area = db.Column(db.Integer, nullable=True)
     max_floor_area = db.Column(db.Integer, nullable=True)
 
+    longitude = db.Column(db.Float, nullable=True)
+    latitude = db.Column(db.Float, nullable=True)
+
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     images = db.relationship(

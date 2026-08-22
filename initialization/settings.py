@@ -1,5 +1,5 @@
 from core.utils.settings import SettingCategory, SettingItem
-from wtforms import FileField
+from wtforms import FileField, StringField
 from core.utils.registry.settings import register_category
 
 SETTINGS = [
@@ -20,6 +20,26 @@ SETTINGS = [
                     }
                 ),
                 category_name="hero_section"
+            )
+        ]
+    ),
+    SettingCategory(
+        name="map_configuration",
+        nice_name="Map Configuration",
+        description="Settings related to the Google Maps configuration.",
+        settings=[
+            SettingItem(
+                key="google_maps_api_key",
+                name="Google Maps API Key",
+                value="",
+                field=StringField(
+                    "Google Maps API Key",
+                    description="The API key for the Google Maps configuration.",
+                    render_kw={
+                        "class": "fd-input"
+                    }
+                ),
+                category_name="map_configuration"
             )
         ]
     )

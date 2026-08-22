@@ -58,9 +58,21 @@
 						<div class="flex" :class="msg.sender === 'client' ? 'justify-end' : 'justify-start'">
 							<div class="max-w-xs flex flex-col" :class="msg.sender === 'client' ? 'items-end' : 'items-start'">
 								<p class="text-xs text-zinc-400" x-text="msg.name"></p>
-								<div class="px-3.5 py-2.5 rounded-lg text-sm" :class="msg.sender === 'client'
+								<template x-if="msg.content_type === 'image'">
+									<a :href="'/media/' + msg.content" target="_blank" class="block">
+										<img :src="'/media/' + msg.content" alt="Shared image" class="max-h-48 w-auto max-w-full rounded-lg" :class="msg.sender === 'client' ? 'rounded-br-none' : 'rounded-bl-none'" />
+									</a>
+								</template>
+								<template x-if="msg.content_type === 'file'">
+									<a :href="'/media/' + msg.content" target="_blank" class="px-3.5 py-2.5 rounded-lg text-sm underline break-all" :class="msg.sender === 'client'
+                    ? 'bg-emerald-800 text-white rounded-br-none'
+                    : 'bg-zinc-100 text-zinc-800 rounded-bl-none'" x-text="msg.content_name"></a>
+								</template>
+								<template x-if="msg.content_type === 'text' || !msg.content_type">
+									<div class="px-3.5 py-2.5 rounded-lg text-sm" :class="msg.sender === 'client'
                     ? 'bg-emerald-800 text-white rounded-br-none'
                     : 'bg-zinc-100 text-zinc-800 rounded-bl-none'" x-text="msg.text"></div>
+								</template>
 								<p class="text-xs text-zinc-400 mt-1" x-text="msg.time"></p>
 							</div>
 						</div>
