@@ -91,7 +91,9 @@ def create_property():
                 min_lot_size=form.min_lot_size.data,
                 max_lot_size=form.max_lot_size.data,
                 min_floor_area=form.min_floor_area.data,
-                max_floor_area=form.max_floor_area.data
+                max_floor_area=form.max_floor_area.data,
+                longitude=form.longitude.data,
+                latitude=form.latitude.data
             )
             db.session.add(new_property)
             db.session.commit()
@@ -142,6 +144,8 @@ def edit_property(property_uuid):
             property_listing.max_lot_size = form.max_lot_size.data
             property_listing.min_floor_area = form.min_floor_area.data
             property_listing.max_floor_area = form.max_floor_area.data
+            property_listing.longitude = form.longitude.data
+            property_listing.latitude = form.latitude.data
 
             db.session.commit()
 

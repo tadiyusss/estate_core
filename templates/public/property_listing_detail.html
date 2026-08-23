@@ -74,24 +74,34 @@
             <h4 class="text-lg font-medium text-gray-900 border-b border-gray-200 pb-2">Description</h4>
             <p class="text-gray-700 mt-2">{{ property_listing.description }}</p>
         </div>
-        <section class="border border-gray-200 rounded-lg w-full p-4 shadow-lg space-y-2">
-            <h4 class="text-lg font-medium text-gray-900 border-b border-gray-200 pb-2">Amenities</h4>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {% for amenity_batch in property_listing.amenities|batch(3, None) %}
-                    <ul class="list-disc list-inside text-gray-600 text-sm space-y-2">
-                        {% for amenity in amenity_batch %}
-                            {% if amenity %}
-                                <li class="flex items-center space-x-2">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-3 text-emerald-800/80">
-                                        <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Zm3.844-8.791a.75.75 0 0 0-1.188-.918l-3.7 4.79-1.649-1.833a.75.75 0 1 0-1.114 1.004l2.25 2.5a.75.75 0 0 0 1.15-.043l4.25-5.5Z" clip-rule="evenodd" />
-                                    </svg>
-                                    <p class="">{{ amenity.amenity }}</p>
-                                </li>
-                            {% endif %}
-                        {% endfor %}
-                    </ul>
-                {% endfor %}
+        <section class="space-y-2 grid md:grid-cols-2 grid-cols-1 gap-4">
+            <div class="border border-gray-200 rounded-lg p-4 shadow-lg {% if not property_listing.longitude or not property_listing.latitude %}md:col-span-2 col-span-1{% endif %}">
+                <h4 class="text-lg font-medium text-gray-900 border-b border-gray-200 pb-2">Amenities</h4>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {% for amenity_batch in property_listing.amenities|batch(3, None) %}
+                        <ul class="list-disc list-inside text-gray-600 text-sm space-y-2 mt-4">
+                            {% for amenity in amenity_batch %}
+                                {% if amenity %}
+                                    <li class="flex items-center space-x-2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-3 text-emerald-800/80">
+                                            <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Zm3.844-8.791a.75.75 0 0 0-1.188-.918l-3.7 4.79-1.649-1.833a.75.75 0 1 0-1.114 1.004l2.25 2.5a.75.75 0 0 0 1.15-.043l4.25-5.5Z" clip-rule="evenodd" />
+                                        </svg>
+                                        <p class="">{{ amenity.amenity }}</p>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    {% endfor %}
+                </div>
             </div>
+            {% if property_listing.longitude and property_listing.latitude %}
+            <div
+                id="map"
+                x-data="google_map()"
+                x-init="init('{{ property_listing.longitude }}', '{{ property_listing.latitude }}')"
+                class="w-full h-[400px]"
+            ></div>
+            {% endif %}
         </section>
         <section class="space-y-4">
             <h1 class="text-4xl font-medium">Similar Listings</h1>
@@ -137,3 +147,43 @@
     </div>
     {% include "components/footer.html" %}
 {% endblock %}
+{% if property_listing.longitude and property_listing.latitude %}
+    {% block javascript %}
+    <script async src="https://maps.googleapis.com/maps/api/js?key={{ g.settings['google_maps_api_key'] }}&loading=async&callback=initGoogleMap"></script>
+    <script>
+    function google_map() {
+        return {
+            map: null,
+            marker: null,
+
+            init(longitude, latitude) {
+                const location = {
+                    lat: Number(latitude),
+                    lng: Number(longitude)
+                };
+
+                if (window.google?.maps) {
+                    this.create_map(location);
+                } else {
+                    window.initGoogleMap = () => {
+                        this.create_map(location);
+                    };
+                }
+            },
+
+            create_map(location) {
+                this.map = new google.maps.Map(this.$el, {
+                    center: location,
+                    zoom: 15
+                });
+
+                this.marker = new google.maps.Marker({
+                    position: location,
+                    map: this.map
+                });
+            }
+        };
+    }
+    </script>
+    {% endblock %}
+{% endif %}

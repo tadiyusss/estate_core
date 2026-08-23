@@ -204,19 +204,8 @@
 
 			<div x-ref="map" class="w-full h-[500px] rounded-lg overflow-hidden border border-gray-200"></div>
 
-			<div x-show="latitude && longitude" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-				<div>
-					<label class="fd-form-label"> Latitude </label>
-					<input type="text" class="fd-input" x-model="latitude" readonly>
-				</div>
-				<div>
-					<label class="fd-form-label"> Longitude </label>
-					<input type="text" class="fd-input" x-model="longitude" readonly>
-				</div>
-			</div>
-
-			<input type="hidden" name="latitude" :value="latitude">
-			<input type="hidden" name="longitude" :value="longitude">
+			{{ form.longitude }}
+			{{ form.latitude  }}
 
 			<div class="space-y-4">
 				<template x-for="(amenity, index) in amenities" :key="index">
@@ -311,7 +300,7 @@
 </form>
 {% endblock %}
 {% block javascript %}
-<script src="https://unpkg.com/just-validate@latest/dist/just-validate.production.min.js"></script>
+<script src="{{ url_for('estate_core.static', filename='js/just-validate.production.min.js') }}"></script>
 
 <script>
 	window.googleMapsLoaded = false;
@@ -467,7 +456,9 @@
 			},
 			is_next_disabled() {
 				if (this.step === 3) {
-					return this.amenities.some(a => !a || !a.trim());
+					const amenities_invalid = this.amenities.some(a => !a || !a.trim());
+					const coordinates_invalid = !this.latitude || !this.longitude;
+					return amenities_invalid || coordinates_invalid;
 				}
 				const fields = this.step_fields[this.step];
 				if (!fields) {
@@ -639,7 +630,25 @@
 						rule: 'number',
 						errorMessage: 'Max Floor Area must be a number'
 					}]);
-				const tracked_fields = ['#developer', '#property_type', '#status', '#location', '#name', '#description', '#start_price_range', '#end_price_range', '#min_floor_area', '#max_floor_area'];
+				
+				this.validator.addField('#latitude',
+					[{
+						rule: 'required',
+						errorMessage: 'Latitude is required'
+					}, {
+						rule: 'number',
+						errorMessage: 'Latitude must be a number'
+					}]);
+				this.validator.addField('#longitude',
+					[{
+						rule: 'required',
+						errorMessage: 'Longitude is required'
+					}, {
+						rule: 'number',
+						errorMessage: 'Longitude must be a number'
+					}]);
+
+				const tracked_fields = ['#developer', '#property_type', '#status', '#location', '#name', '#description', '#start_price_range', '#end_price_range', '#min_floor_area', '#max_floor_area', '#latitude', '#longitude'];
 				tracked_fields.forEach(field_id => {
 					this.field_validity[field_id] = this.compute_initial_validity(field_id);
 					this.setup_field_listener(field_id);
