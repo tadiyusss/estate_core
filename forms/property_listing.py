@@ -33,5 +33,5 @@ class CreatePropertyForm(FlaskForm):
 
     images = MultipleFileField('Property Images', render_kw={'class': 'hidden', '@change': 'handle_file_change($event)'}, validators=[FileAllowed(IMAGES_ALLOWED, 'Invalid file type. Please upload a valid image. (JPG, PNG, GIF, SVG, WEBP)'), FileSize(max_size=16*1024*1024, message="File size must be less than 16MB")], description="Required. You can upload multiple images.")
 
-    longitude = DecimalField('Longitude', validators=[], render_kw={'class': 'fd-input', 'x-model': 'longitude'}, description="Required")
-    latitude = DecimalField('Latitude', validators=[], render_kw={'class': 'fd-input', 'x-model': 'latitude'}, description="Required")
+    longitude = DecimalField('Longitude', validators=[], render_kw={'class': 'hidden', 'x-model': 'longitude'}, description="Required")
+    latitude = DecimalField('Latitude', validators=[], render_kw={'class': 'hidden', 'x-model': 'latitude'}, description="Required")
