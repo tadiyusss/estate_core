@@ -11,6 +11,8 @@ from extensions.landing_page.models.testimonial import Testimonial
 from extensions.estate_core.forms.filters.public_property_listing import FilterPublicPropertyListingForm
 from extensions.estate_core.models import PropertyListing
 from extensions.estate_core.models import Developer
+from extensions.landing_page.models import FAQ
+
 @bp.route('/', methods=['GET', 'POST'])
 @track_visitor
 def index():
@@ -20,6 +22,7 @@ def index():
     team_members = TeamMember.query.all()
     testimonials = Testimonial.query.all()
     recent_properties = PropertyListing.query.order_by(PropertyListing.created_at.desc()).limit(3).all()
+    faqs = FAQ.query.all()
 
     locations = db.session.query(PropertyListing.location).distinct().all()
     prices = db.session.query(PropertyListing.start_price_range).distinct().order_by(PropertyListing.start_price_range.asc()).all()
@@ -43,7 +46,7 @@ def index():
         db.session.add(contact_us_entry)
         db.session.commit()
 
-        return render_template('public/index.html', form=form, success=True, team_members=team_members, testimonials=testimonials, recent_properties=recent_properties, filter_form=filter_form)
+        return render_template('public/index.html', form=form, success=True, team_members=team_members, testimonials=testimonials, recent_properties=recent_properties, filter_form=filter_form, faqs=faqs)
 
-    return render_template('public/index.html', form=form, team_members=team_members, testimonials=testimonials, recent_properties=recent_properties, filter_form=filter_form)
+    return render_template('public/index.html', form=form, team_members=team_members, testimonials=testimonials, recent_properties=recent_properties, filter_form=filter_form, faqs=faqs)
 

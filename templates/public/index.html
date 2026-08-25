@@ -118,6 +118,29 @@
             <img src="{{ url_for('estate_core.static', filename='images/landing-page-image-2.jpg') }}" alt="" class="w-full max-h-[400px] object-cover rounded-lg shadow">
         </div>
     </section>
+    {% if faqs|length > 0 %}
+    <section class="w-full">
+        <div class="max-w-7xl mx-auto px-4 py-16 space-y-8">
+            <div class="space-y-2">
+                <h4 class="text-4xl font-medium text-center">Frequently Asked Questions</h4>
+                <p class="font-medium text-center max-w-2xl mx-auto text-gray-600">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo asperiores, natus sequi ex officia ipsa atque doloremque maxime perspiciatis expedita accusamus quasi recusandae earum consectetur provident minima quaerat quisquam! Ducimus.</p>
+            </div>
+            <div class="space-y-1 max-w-4xl mx-auto bg-white">
+                {% for faq in faqs %}
+                <div class="border border-gray-200 px-4 py-2 rounded-lg" x-data="{open: false}" @click="open = !open">
+                    <div class="p-2 flex items-center justify-between" :class="open ? 'border-b border-gray-200' : ''">
+                        <h5 class="font-medium text-lg text-emerald-700">{{ faq.question }}</h5>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4" :class="open ? 'rotate-180' : ''">
+                            <path fill-rule="evenodd" d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                    <p class="text-gray-600 p-2 text-sm transition" x-show="open" x-transition>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sequi vel doloribus, animi sit neque, unde corporis magnam qui ad modi pariatur vitae ullam. Non, natus cupiditate? Odit ipsam beatae inventore.</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    {% endif %}
     <section class="py-24 bg-gradient-to-tr from-zinc-950 to-emerald-900 text-center text-white space-y-4">
         <div class="space-y-2">
             <div class="p-0.5 max-w-xs bg-gradient-to-r from-emerald-950 to-white mx-auto"></div>
