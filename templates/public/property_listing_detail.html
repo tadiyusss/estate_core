@@ -29,9 +29,9 @@
             <div class="relative">
                 <img :src="image_url" alt="Avida Towers Verge unit interior" class="w-full h-[600px] object-cover rounded-lg" />
             </div>
-            <div class="flex gap-3 sm:gap-4 mt-7 overflow-x-auto no-scrollbar">
+            <div class="flex gap-3 sm:gap-4 mt-7 overflow-x-auto no-scrollbar p-2">
                 {% for image in property_listing.images %}
-				<img src="{{ url_for('media.serve_media', filename=image.image_filename) }}" @click="image_url = '{{ url_for('media.serve_media', filename=image.image_filename) }}'" class="w-20 h-20 sm:w-[6.5rem] sm:h-[6.5rem] shrink-0 object-cover rounded-xl cursor-pointer" alt="thumbnail" />
+				<img src="{{ url_for('media.serve_media', filename=image.image_filename) }}" @click="image_url = '{{ url_for('media.serve_media', filename=image.image_filename) }}'" class="w-20 h-20 sm:w-[6.5rem] sm:h-[6.5rem] shrink-0 object-cover rounded-xl cursor-pointer hover:shadow hover:shadow-emerald-200" alt="thumbnail" />
                 {% endfor %}
 			</div>
         </div>
@@ -46,14 +46,26 @@
                         <p class="text-sm text-gray-500 uppercase font-thin">Price Range</p>
                         <h4 class="font-medium">{{ format_price(property_listing.start_price_range) }} to {{ format_price(property_listing.end_price_range) }}</h4>
                     </div>
+                    {% if property_listing.min_lot_size %}
                     <div class="col-span-1 p-2 bg-white">
                         <p class="text-sm text-gray-500 uppercase font-thin">Lot Size (sqm)</p>
+                        {% if property_listing.min_lot_size and property_listing.max_lot_size %}
                         <h4 class="font-medium">{{ property_listing.min_lot_size }}sqm to {{ property_listing.max_lot_size }}sqm</h4>
+                        {% elif property_listing.min_lot_size and not property_listing.max_lot_size %}
+                        <h4 class="font-medium">{{ property_listing.min_lot_size }}sqm</h4>
+                        {% endif %}
                     </div>
+                    {% endif %}
+                    {% if property_listing.min_floor_area %}
                     <div class="col-span-1 p-2 bg-white">
                         <p class="text-sm text-gray-500 uppercase font-thin">Floor Area (sqm)</p>
+                        {% if property_listing.min_floor_area and property_listing.max_floor_area %}
                         <h4 class="font-medium">{{ property_listing.min_floor_area }}sqm to {{ property_listing.max_floor_area }}sqm</h4>
+                        {% elif property_listing.min_floor_area and not property_listing.max_floor_area %}
+                        <h4 class="font-medium">{{ property_listing.min_floor_area }}sqm</h4>
+                        {% endif %}
                     </div>
+                    {% endif %}
                     <div class="col-span-1 p-2 bg-white">
                         <p class="text-sm text-gray-500 uppercase font-thin">Developer</p>
                         <h4 class="font-medium">{{ property_listing.developer.name }}</h4>
@@ -62,6 +74,13 @@
                         <p class="text-sm text-gray-500 uppercase font-thin">Location</p>
                         <h4 class="font-medium">{{ property_listing.location }}</h4>
                     </div>
+                    {% if not property_listing.min_floor_area %}
+                    <div class="col-span-1 p-2 bg-white"></div>
+                    {% endif %}
+
+                    {% if not property_listing.min_floor_area %}
+                    <div class="col-span-1 p-2 bg-white"></div>
+                    {% endif %}
                 </div>
                 <div class="md:w-1/5 w-full flex md:items-center md:justify-center md:px-4">
                     <a href="{{ url_for('estate_core.contact_us') }}" class="text-center bg-emerald-800 hover:bg-emerald-700 md:w-full text-lg transition duration-300 cursor-pointer rounded-lg text-white px-4 py-2">
@@ -75,23 +94,25 @@
             <p class="text-gray-700 mt-2">{{ property_listing.description }}</p>
         </div>
         <section class="space-y-2 grid md:grid-cols-2 grid-cols-1 gap-4">
-            <div class="border border-gray-200 rounded-lg p-4 shadow-lg {% if not property_listing.longitude or not property_listing.latitude %}md:col-span-2 col-span-1{% endif %}">
-                <h4 class="text-lg font-medium text-gray-900 border-b border-gray-200 pb-2">Amenities</h4>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {% for amenity_batch in property_listing.amenities|batch(3, None) %}
-                        <ul class="list-disc list-inside text-gray-600 text-sm space-y-2 mt-4">
-                            {% for amenity in amenity_batch %}
-                                {% if amenity %}
-                                    <li class="flex items-center space-x-2">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-3 text-emerald-800/80">
-                                            <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Zm3.844-8.791a.75.75 0 0 0-1.188-.918l-3.7 4.79-1.649-1.833a.75.75 0 1 0-1.114 1.004l2.25 2.5a.75.75 0 0 0 1.15-.043l4.25-5.5Z" clip-rule="evenodd" />
-                                        </svg>
-                                        <p class="">{{ amenity.amenity }}</p>
-                                    </li>
-                                {% endif %}
-                            {% endfor %}
-                        </ul>
-                    {% endfor %}
+            <div class="">
+                <div class="border border-gray-200 rounded-lg p-4 shadow-lg {% if not property_listing.longitude or not property_listing.latitude %}md:col-span-2 col-span-1{% endif %}">
+                    <h4 class="text-lg font-medium text-gray-900 border-b border-gray-200 pb-2">Amenities</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {% for amenity_batch in property_listing.amenities|batch(3, None) %}
+                            <ul class="list-disc list-inside text-gray-600 text-sm space-y-2 mt-4">
+                                {% for amenity in amenity_batch %}
+                                    {% if amenity %}
+                                        <li class="flex items-center space-x-2">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-3 text-emerald-800/80">
+                                                <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Zm3.844-8.791a.75.75 0 0 0-1.188-.918l-3.7 4.79-1.649-1.833a.75.75 0 1 0-1.114 1.004l2.25 2.5a.75.75 0 0 0 1.15-.043l4.25-5.5Z" clip-rule="evenodd" />
+                                            </svg>
+                                            <p class="">{{ amenity.amenity }}</p>
+                                        </li>
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
+                        {% endfor %}
+                    </div>
                 </div>
             </div>
             {% if property_listing.longitude and property_listing.latitude %}

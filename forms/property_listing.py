@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, FileField, TextAreaField, SelectField, DecimalField, FieldList, Form, FormField
-from wtforms.validators import DataRequired, Length
+from wtforms.validators import DataRequired, Length, Optional
 from flask_wtf.file import FileAllowed, FileSize, MultipleFileField
 from extensions.estate_core.models import Developer
 from extensions.estate_core.models import PropertyType
@@ -18,11 +18,11 @@ class CreatePropertyForm(FlaskForm):
     location = StringField('Location', validators=[DataRequired(), Length(max=255)], render_kw={'class': 'fd-input', 'placeholder': 'BGC, Taguig City, Metro Manila, etc...'}, description="Required")
     status = SelectField('Status', validators=[DataRequired()], render_kw={'class': 'fd-input'}, choices=STATUS_CHOICES)
 
-    min_lot_size = DecimalField('Lot Size (sq meters)', render_kw={'class': 'fd-input'}, description="Optional")
-    max_lot_size = DecimalField('Max Lot Size (sq meters)', render_kw={'class': 'fd-input'}, description="Optional")
+    min_lot_size = DecimalField('Lot Size (sq meters)', validators=[Optional()], render_kw={'class': 'fd-input'}, description="Optional")
+    max_lot_size = DecimalField('Max Lot Size (sq meters)', validators=[Optional()], render_kw={'class': 'fd-input'}, description="Optional")
 
-    min_floor_area = DecimalField('Min Floor Area (sq meters)', render_kw={'class': 'fd-input'}, description="Optional")
-    max_floor_area = DecimalField('Max Floor Area (sq meters)', render_kw={'class': 'fd-input'}, description="Optional")
+    min_floor_area = DecimalField('Min Floor Area (sq meters)', validators=[Optional()], render_kw={'class': 'fd-input'}, description="Optional")
+    max_floor_area = DecimalField('Max Floor Area (sq meters)', validators=[Optional()], render_kw={'class': 'fd-input'}, description="Optional")
 
     start_price_range = DecimalField('Start Price Range', validators=[DataRequired()], render_kw={'class': 'fd-input', 'placeholder': '₱100,000'}, description="Required")
     end_price_range = DecimalField('End Price Range', validators=[DataRequired()], render_kw={'class': 'fd-input', 'placeholder': '₱10,000,000'}, description="Required")
