@@ -27,7 +27,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 -mt-20 sm:-mt-24 pb-16 relative space-y-8">
         <div class="space-y-4" x-data="{image_url: '{{ url_for('media.serve_media', filename=property_listing.images[0].image_filename) }}'}">
             <div class="relative">
-                <img :src="image_url" alt="Avida Towers Verge unit interior" class="w-full h-[600px] object-cover rounded-lg" />
+                <img :src="image_url" alt="Main Property Image" class="w-full h-[600px] object-cover rounded-lg" />
             </div>
             <div class="flex gap-3 sm:gap-4 mt-7 overflow-x-auto no-scrollbar p-2">
                 {% for image in property_listing.images %}
