@@ -1,5 +1,11 @@
 {% extends "public/base.html" %}
 {% block title %}About Us{% endblock %}
+{% block head %}
+{% if g.settings['about_us_meta_description'] %}
+<meta name="description" content="{{ g.settings['about_us_meta_description'] }}">
+{% endif %}
+{% endblock %}
+
 {% block content %}
     {% include "components/navigation-green.html" %}
     <section class="bg-emerald-950 text-white py-16">

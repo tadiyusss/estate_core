@@ -49,12 +49,39 @@ SETTINGS = [
         description="Settings related to SEO.",
         settings=[
             SettingItem(
+                key="title_prefix",
+                name="Title Prefix",
+                value="| Ayala Land Properties in the Philippines",
+                field=StringField(
+                    "Title Prefix",
+                    description="The prefix for the page titles.",
+                    render_kw={
+                        "class": "fd-input"
+                    }
+                ),
+                category_name="seo_settings"
+            ),
+            SettingItem(
                 key="home_meta_description",
                 name="Home Meta Description",
-                value="",
+                value="Explore Ayala Land properties in the Philippines, including condominiums, house-and-lot communities and residential lots in prime locations.",
                 field=TextAreaField(
                     "Home Page Meta Description",
                     description="The meta description for the home page.",
+                    render_kw={
+                        "class": "fd-input",
+                        "rows": 6
+                    }
+                ),
+                category_name="seo_settings"
+            ),
+            SettingItem(
+                key="about_us_meta_description",
+                name="About Us Meta Description",
+                value="Meet our real estate sales team and learn how we help buyers and investors explore Ayala Land and Alveo properties across the Philippines.",
+                field=TextAreaField(
+                    "About Us Page Meta Description",
+                    description="The meta description for the About Us page.",
                     render_kw={
                         "class": "fd-input",
                         "rows": 6

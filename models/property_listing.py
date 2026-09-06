@@ -2,6 +2,7 @@ from datetime import datetime
 from core.extensions import db
 import uuid
 from extensions.estate_core.models import PropertyType
+from extensions.estate_core.utils.descriptions import to_slug
 
 STATUS_CHOICES = ('pre_selling', 'Pre-selling'), ('under_construction', 'Under Construction'), ('ready_for_occupancy', 'Ready for Occupancy')
 
@@ -45,3 +46,7 @@ class PropertyListing(db.Model):
     @property
     def amenities_to_list(self):
         return [amenity.amenity for amenity in self.amenities]
+
+    @property
+    def arial_label_general(self):
+        return to_slug(f"{self.name}-{self.property_type.name}-at-{self.location}")
