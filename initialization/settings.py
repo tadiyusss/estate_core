@@ -1,5 +1,5 @@
 from core.utils.settings import SettingCategory, SettingItem
-from wtforms import FileField, StringField
+from wtforms import FileField, StringField, TextAreaField
 from core.utils.registry.settings import register_category
 
 SETTINGS = [
@@ -42,6 +42,27 @@ SETTINGS = [
                 category_name="map_configuration"
             )
         ]
+    ),
+    SettingCategory(
+        name="seo_settings",
+        nice_name="SEO Settings",
+        description="Settings related to SEO.",
+        settings=[
+            SettingItem(
+                key="home_meta_description",
+                name="Home Meta Description",
+                value="",
+                field=TextAreaField(
+                    "Home Page Meta Description",
+                    description="The meta description for the home page.",
+                    render_kw={
+                        "class": "fd-input",
+                        "rows": 6
+                    }
+                ),
+                category_name="seo_settings"
+            )
+        ]   
     )
 ]
 
