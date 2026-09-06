@@ -1,10 +1,15 @@
 {% extends "public/base.html" %}
 {% block title %}About Us{% endblock %}
 {% block head %}
-{% if g.settings['about_us_meta_description'] %}
-<meta name="description" content="{{ g.settings['about_us_meta_description'] }}">
-{% endif %}
-{% endblock %}
+    {% if g.settings['about_us_meta_description'] %}
+    <meta name="description" content="{{ g.settings['about_us_meta_description'] }}">
+    <meta property="og:description" content="{{ g.settings['about_us_meta_description'] }}">
+    {% endif %}
+    <meta property="og:title" content="Discover Properties & Real Estate in the Philippines {{ g.settings['title_prefix'] }}">
+    <meta property="og:image" content="{{ url_for('estate_core.static', filename='images/social-media-banner.jpg', _external=True) }}">
+    <meta property="og:url" content="{{ url_for('estate_core.about_us', _external=True) }}">
+    <meta property="og:type"content="website">
+    {% endblock %}
 
 {% block content %}
     {% include "components/navigation-green.html" %}
@@ -33,7 +38,7 @@
             <div class="grid md:grid-cols-3 grid-cols-1 gap-8">
                 {% for member in team_members %}
                     <div class="space-y-2 mx-auto md:space-y-0 space-y-4 {% if loop.index != 2 %} md:pt-16 {% endif %}">
-                        <img src="{{ url_for('media.serve_media', filename=member.image) }}" class="rounded md:w-64 w-full h-96 object-cover rounded-2xl" alt="{{ member.name }}">
+                        <img src="{{ url_for('media.serve_media', filename=member.image) }}" class="rounded md:w-64 w-full h-96 object-cover rounded-2xl" alt="{{ member.role }} {{ member.name }}">
                         <div class="py-1">
                             <h5 class="text-lg font-medium">{{ member.name }}</h5>
                             <p class="text-gray-600 text-sm">{{ member.role }}</p>
@@ -47,13 +52,12 @@
         <div class="">
             <h4 class="text-white md:text-4xl text-2xl font-semibold">Book a Consultation</h4>
             <p class="text-gray-200 max-w-2xl mx-auto md:text-base text-sm">Schedule a consultation with our team to discuss your real estate needs and explore the best options for you.</p>
-\
         </div>
         <a href="{{ url_for('estate_core.contact_us') }}" class="bg-white text-emerald-950 md:px-6 md:py-3 px-4 py-2 font-medium rounded mt-4 hover:bg-gray-200 transition">Book Now</a>
     </section>
     <section class="w-full py-16 md:text-center space-y-8 p-4">
         <div class="space-y-2">
-            <h1 class="tracking-tight md:text-4xl text-2xl font-medium">Visit Us for a Consultation</h1>
+            <h2 class="tracking-tight md:text-4xl text-2xl font-medium">Visit Us for a Consultation</h2>
             <p class="text-gray-600 md:text-base text-sm">Explore your property options with our team through a personalized, face-to-face consultation.</p>
         </div>
         <div class="text-left max-w-7xl mx-auto">

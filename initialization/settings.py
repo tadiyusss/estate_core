@@ -64,7 +64,7 @@ SETTINGS = [
             SettingItem(
                 key="home_meta_description",
                 name="Home Meta Description",
-                value="Explore Ayala Land properties in the Philippines, including condominiums, house-and-lot communities and residential lots in prime locations.",
+                value="Explore Ayala Land properties in the Philippines, from condominiums and house-and-lot communities to residential lots in prime locations.",
                 field=TextAreaField(
                     "Home Page Meta Description",
                     description="The meta description for the home page.",
@@ -82,6 +82,48 @@ SETTINGS = [
                 field=TextAreaField(
                     "About Us Page Meta Description",
                     description="The meta description for the About Us page.",
+                    render_kw={
+                        "class": "fd-input",
+                        "rows": 6
+                    }
+                ),
+                category_name="seo_settings"
+            ),
+            SettingItem(
+                key="developers_meta_description",
+                name="Developers Meta Description",
+                value="Explore leading real estate developers in the Philippines and discover their residential communities, condominiums, and property developments.",
+                field=TextAreaField(
+                    "Developers Page Meta Description",
+                    description="The meta description for the Developers page.",
+                    render_kw={
+                        "class": "fd-input",
+                        "rows": 6
+                    }
+                ),
+                category_name="seo_settings"
+            ),
+            SettingItem(
+                key="property_listing_meta_description",
+                name="Property Listing Meta Description",
+                value="Browse Ayala Land and Alveo properties in the Philippines, with detailed listings for condominiums, houses, lots, and residential communities.",
+                field=TextAreaField(
+                    "Property Listing Page Meta Description",
+                    description="The meta description for the Property Listing page.",
+                    render_kw={
+                        "class": "fd-input",
+                        "rows": 6
+                    }
+                ),
+                category_name="seo_settings"
+            ),
+            SettingItem(
+                key="contact_us_meta_description",
+                name="Contact Us Meta Description",
+                value="Get in touch with our real estate sales team to inquire about Ayala Land properties in the Philippines, including condominiums, houses, and residential communities.",
+                field=TextAreaField(
+                    "Contact Us Page Meta Description",
+                    description="The meta description for the Contact Us page.",
                     render_kw={
                         "class": "fd-input",
                         "rows": 6

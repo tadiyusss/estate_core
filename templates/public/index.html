@@ -1,9 +1,14 @@
 {% extends "public/base.html" %}
 {% block head %}
-{% if g.settings['home_meta_description'] %}
-<meta name="description" content="{{ g.settings['home_meta_description'] }}">
-{% endif %}
-{% endblock %}
+    {% if g.settings['home_meta_description'] %}
+    <meta name="description" content="{{ g.settings['home_meta_description'] }}">
+    <meta property="og:description" content="{{ g.settings['home_meta_description'] }}">
+    {% endif %}
+    <meta property="og:title" content="{{ g.settings['site_title'] }} {{ g.settings['title_prefix'] }}">
+    <meta property="og:image" content="{{ url_for('estate_core.static', filename='images/social-media-banner.jpg', _external=True) }}">
+    <meta property="og:url" content="{{ url_for('estate_core.index', _external=True) }}">
+    <meta property="og:type"content="website">
+    {% endblock %}
 
 {% block title %}Home{% endblock %}
 
@@ -88,7 +93,7 @@
             </div>
             <div class="grid md:grid-cols-3 grid-cols-1 md:gap-4 gap-8">
                 {% for property in recent_properties %}
-                    <a href="{{ url_for('estate_core.property_listing_detail', property_uuid=property.uuid) }}" class="col-span-1 space-y-2" aria-labelledby="{{ property.arial_label_general }}">
+                    <a href="{{ url_for('estate_core.property_listing_detail', developer_name=property.developer.name, property_name=property.name) }}" class="col-span-1 space-y-2" aria-labelledby="{{ property.arial_label_general }}">
                         <img src="{{ url_for('media.serve_media', filename=property.images[0].image_filename) }}" alt="{{ property.name }} in {{ property.location }}" class="w-full h-[500px] object-cover rounded-xl">
                         <div class="">
                             <h2 class="font-medium text-lg">{{ property.name }}</h2>

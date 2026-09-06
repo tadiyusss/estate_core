@@ -7,6 +7,7 @@
         <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
         <script defer src="{{ url_for('static', filename='js/app.js') }}"></script>
         <link rel="stylesheet" href="{{ url_for('estate_core.static', filename='css/font.css') }}">
+        <link rel="canonical" href="{{ request.url }}" />
         {% block head %}{% endblock %}
     </head>
     <body>

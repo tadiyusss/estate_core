@@ -25,12 +25,12 @@ def property_listing():
     locations = db.session.query(PropertyListing.location).distinct().all()
     prices = db.session.query(PropertyListing.start_price_range).distinct().order_by(PropertyListing.start_price_range.asc()).all()
     property_types = PropertyType.query.all()
-    developers = db.session.query(Developer.name).distinct().all()
+    developers = Developer.query.distinct().all()
 
     form.property_type.choices = [("", "All Types")] + [(ptype.name, ptype.name) for ptype in property_types]
     form.price.choices = [("", "All Prices")] + [(price[0], f"₱{price[0]:,.2f}") for price in prices]
     form.location.choices = [("", "All Locations")] + [(loc[0], loc[0]) for loc in locations]
-    form.developer.choices = [("", "All Developers")] + [(dev[0], dev[0]) for dev in developers]
+    form.developer.choices = [("", "All Developers")] + [(dev.name, dev.name) for dev in developers]
 
     if request.args.get('location'):
         property_listings = property_listings.filter_by(location=request.args.get('location'))
@@ -51,13 +51,18 @@ def property_listing():
         property_listings = property_listings.join(PropertyListing.developer).filter_by(name=developer_name)
         form.developer.data = developer_name
 
-    return render_template('public/property_listing.html', property_listings=property_listings.all(), form=form)
+    selected_developer = Developer.query.filter_by(name=request.args.get('developer')).first() if request.args.get('developer') else None
 
+    return render_template('public/property_listing.html', property_listings=property_listings.all(), form=form, selected_developer=selected_developer)
 
-@bp.route('/property-listing/<string:property_uuid>', methods=['GET'])
+@bp.route('/property-listing/<string:developer_name>/<string:property_name>', methods=['GET'])
 @track_visitor
-def property_listing_detail(property_uuid):
-    property_listing = PropertyListing.query.filter_by(uuid=property_uuid).first_or_404()
+def property_listing_detail(developer_name, property_name):
+    property_listing = PropertyListing.query.join(PropertyListing.developer).filter(
+        Developer.name == developer_name,
+        PropertyListing.name == property_name
+    ).first_or_404()
+
     similar_properties = (
         PropertyListing.query.filter(
             PropertyListing.uuid != property_listing.uuid
@@ -70,4 +75,24 @@ def property_listing_detail(property_uuid):
         .limit(3)
         .all()
     )
+
+
     return render_template('public/property_listing_detail.html', property_listing=property_listing, similar_properties=similar_properties, STATUS_CHOICES=dict(STATUS_CHOICES))
+
+# @bp.route('/property-listing/<string:property_uuid>', methods=['GET'])
+# @track_visitor
+# def property_listing_detail(property_uuid):
+#     property_listing = PropertyListing.query.filter_by(uuid=property_uuid).first_or_404()
+#     similar_properties = (
+#         PropertyListing.query.filter(
+#             PropertyListing.uuid != property_listing.uuid
+#         )
+#         .filter(
+#             (PropertyListing.location == property_listing.location)
+#             | (PropertyListing.start_price_range == property_listing.start_price_range)
+#             | (PropertyListing.developer_id == property_listing.developer_id)
+#         )
+#         .limit(3)
+#         .all()
+#     )
+#     return render_template('public/property_listing_detail.html', property_listing=property_listing, similar_properties=similar_properties, STATUS_CHOICES=dict(STATUS_CHOICES))

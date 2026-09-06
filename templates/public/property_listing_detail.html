@@ -1,5 +1,5 @@
 {% extends "public/base.html" %}
-{% block title %}Property Listing{% endblock %}
+{% block title %}{{ property_listing.developer.name }} in {{ property_listing.location }}{% endblock %}
 {% block head %}
     <style>
         .no-scrollbar {
@@ -7,6 +7,13 @@
 			scrollbar-width: none;
 		}
     </style>
+
+    <meta name="description" content="{{ property_listing.description[:160] }}...">
+    <meta property="og:description" content="{{ property_listing.description[:160] }}...">
+    <meta property="og:title" content="{{ property_listing.name }} in {{ property_listing.location }} {{ g.settings['title_prefix'] }}">
+    <meta property="og:image" content="{{ url_for('media.serve_media', filename=property_listing.images[0].image_filename, _external=True) }}">
+    <meta property="og:type"content="website">
+
 {% endblock %}
 {% block content %}
     {% include "components/navigation-green.html" %}
@@ -125,12 +132,12 @@
             {% endif %}
         </section>
         <section class="space-y-4">
-            <h1 class="text-4xl font-medium">Similar Listings</h1>
+            <h2 class="text-4xl font-medium">Similar Listings</h2>
             <div class="w-full">
                 {% if similar_properties|length > 0 %}
                 <div class="grid md:grid-cols-3 grid-cols-1 md:gap-4 gap-10">
                     {% for property in similar_properties %}
-                        <a href="{{ url_for('estate_core.property_listing_detail', property_uuid=property.uuid) }}" class="col-span-1 space-y-2">
+                        <a href="{{ url_for('estate_core.property_listing_detail', developer_name=property.developer.name, property_name=property.name) }}" class="col-span-1 space-y-2">
                             <img src="{{ url_for('media.serve_media', filename=property.images[0].image_filename) }}" alt="{{ property.title }}" class="w-full h-[600px] object-cover rounded-xl">
                             <div class="space-y-2">
                                 <h2 class="font-medium text-emerald-800 text-lg">{{ property.name }}</h2>
