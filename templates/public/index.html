@@ -137,7 +137,7 @@
         <div class="max-w-7xl mx-auto px-4 py-16 space-y-8">
             <div class="space-y-2">
                 <h4 class="text-4xl font-medium text-center">Frequently Asked Questions</h4>
-                <p class="font-medium text-center max-w-2xl mx-auto text-gray-600">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo asperiores, natus sequi ex officia ipsa atque doloremque maxime perspiciatis expedita accusamus quasi recusandae earum consectetur provident minima quaerat quisquam! Ducimus.</p>
+                <p class="font-medium text-center max-w-2xl mx-auto text-gray-600">Find answers to common questions about our properties and services.</p>
             </div>
             <div class="space-y-1 max-w-4xl mx-auto bg-white">
                 {% for faq in faqs %}
@@ -148,7 +148,7 @@
                             <path fill-rule="evenodd" d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
                         </svg>
                     </div>
-                    <p class="text-gray-600 p-2 text-sm transition" x-show="open" x-transition>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sequi vel doloribus, animi sit neque, unde corporis magnam qui ad modi pariatur vitae ullam. Non, natus cupiditate? Odit ipsam beatae inventore.</p>
+                    <p class="text-gray-600 p-2 text-sm transition" x-show="open" x-transition>{{ faq.answer }}</p>
                 </div>
                 {% endfor %}
             </div>
