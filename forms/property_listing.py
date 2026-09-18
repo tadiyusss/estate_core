@@ -7,6 +7,7 @@ from extensions.estate_core.models import PropertyType
 from extensions.estate_core.models.property_listing import STATUS_CHOICES
 
 IMAGES_ALLOWED = ['jpg', 'jpeg', 'png', 'gif', 'svg', 'webp', 'avif']
+MAX_FILE_SIZE = 100 * 1024 * 1024
 
 class AmenitiesForm(Form):
     amenities = StringField('Amenities', validators=[DataRequired(), Length(max=100)], render_kw={'class': 'fd-input', 'placeholder': 'Swimming Pool, Gym, etc...'})
@@ -31,7 +32,7 @@ class CreatePropertyForm(FlaskForm):
     description = TextAreaField('Description', validators=[DataRequired(), Length(max=1000)], render_kw={'class': 'fd-input w-full', 'rows': 10, 'placeholder': "Whether you're looking for a comfortable home or a valuable investment..."}, description="Required")
     amenities_list = FieldList(FormField(AmenitiesForm), min_entries=1, max_entries=50)
 
-    images = MultipleFileField('Property Images', render_kw={'class': 'hidden', '@change': 'handle_file_change($event)'}, validators=[FileAllowed(IMAGES_ALLOWED, 'Invalid file type. Please upload a valid image. (JPG, PNG, GIF, SVG, WEBP)'), FileSize(max_size=16*1024*1024, message="File size must be less than 16MB")], description="Required. You can upload multiple images.")
+    images = MultipleFileField('Property Images', render_kw={'class': 'hidden', '@change': 'handle_file_change($event)'}, validators=[FileAllowed(IMAGES_ALLOWED, 'Invalid file type. Please upload a valid image. (JPG, PNG, GIF, SVG, WEBP)'), FileSize(max_size=MAX_FILE_SIZE, message="File size must be less than 100MB")], description="Required. You can upload multiple images.")
 
     longitude = DecimalField('Longitude', validators=[], render_kw={'class': 'hidden', 'x-model': 'longitude'}, description="Required")
     latitude = DecimalField('Latitude', validators=[], render_kw={'class': 'hidden', 'x-model': 'latitude'}, description="Required")
