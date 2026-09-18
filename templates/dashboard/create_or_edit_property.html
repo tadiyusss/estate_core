@@ -334,7 +334,7 @@
 
 			step_fields: {
 				1: ['#developer', '#property_type', '#status', '#location'],
-				2: ['#name', '#description', '#start_price_range', '#end_price_range']
+				2: ['#name', '#description', '#start_price_range']
 			},
 
 			handle_google_maps_loaded() {
@@ -608,14 +608,6 @@
 						rule: 'number',
 						errorMessage: 'Start Price Range must be a number'
 					}]);
-				this.validator.addField('#end_price_range',
-					[{
-						rule: 'required',
-						errorMessage: 'End Price Range is required'
-					}, {
-						rule: 'number',
-						errorMessage: 'End Price Range must be a number'
-					}]);
 				this.validator.addField('#min_floor_area',
 					[{
 						rule: 'number',
@@ -644,7 +636,7 @@
 						errorMessage: 'Longitude must be a number'
 					}]);
 
-				const tracked_fields = ['#developer', '#property_type', '#status', '#location', '#name', '#description', '#start_price_range', '#end_price_range', '#min_floor_area', '#max_floor_area', '#latitude', '#longitude'];
+				const tracked_fields = ['#developer', '#property_type', '#status', '#location', '#name', '#description', '#start_price_range', '#min_floor_area', '#max_floor_area', '#latitude', '#longitude'];
 				tracked_fields.forEach(field_id => {
 					this.field_validity[field_id] = this.compute_initial_validity(field_id);
 					this.setup_field_listener(field_id);

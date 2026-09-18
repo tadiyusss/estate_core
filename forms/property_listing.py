@@ -25,7 +25,7 @@ class CreatePropertyForm(FlaskForm):
     max_floor_area = DecimalField('Max Floor Area (sq meters)', validators=[Optional()], render_kw={'class': 'fd-input'}, description="Optional")
 
     start_price_range = DecimalField('Start Price Range', validators=[DataRequired()], render_kw={'class': 'fd-input', 'placeholder': '₱100,000'}, description="Required")
-    end_price_range = DecimalField('End Price Range', validators=[DataRequired()], render_kw={'class': 'fd-input', 'placeholder': '₱10,000,000'}, description="Required")
+    end_price_range = DecimalField('End Price Range', validators=[Optional()], render_kw={'class': 'fd-input', 'placeholder': '₱10,000,000'}, description="Optional")
 
     name = StringField('Name', validators=[DataRequired(), Length(max=100)], render_kw={'class': 'fd-input', 'placeholder': 'ACME Residences, Amaia Scapes, etc...'}, description="Required")
     description = TextAreaField('Description', validators=[DataRequired(), Length(max=1000)], render_kw={'class': 'fd-input w-full', 'rows': 10, 'placeholder': "Whether you're looking for a comfortable home or a valuable investment..."}, description="Required")

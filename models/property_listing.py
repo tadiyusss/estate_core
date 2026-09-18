@@ -24,7 +24,7 @@ class PropertyListing(db.Model):
     location = db.Column(db.String(255), nullable=False)
 
     start_price_range = db.Column(db.Integer, nullable=False)
-    end_price_range = db.Column(db.Integer, nullable=False)
+    end_price_range = db.Column(db.Integer, nullable=True)
 
     min_lot_size = db.Column(db.Integer, nullable=True)
     max_lot_size = db.Column(db.Integer, nullable=True)

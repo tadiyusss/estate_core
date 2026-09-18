@@ -51,7 +51,11 @@
                     </div>
                     <div class="col-span-1 p-2 bg-white">
                         <p class="text-sm text-gray-500 uppercase font-thin">Price Range</p>
+                        {% if property_listing.start_price_range and property_listing.end_price_range %}
                         <h4 class="font-medium">{{ format_price(property_listing.start_price_range) }} to {{ format_price(property_listing.end_price_range) }}</h4>
+                        {% elif property_listing.start_price_range and not property_listing.end_price_range %}
+                        <h4 class="font-medium">{{ format_price(property_listing.start_price_range) }}</h4>
+                        {% endif %}
                     </div>
                     {% if property_listing.min_lot_size %}
                     <div class="col-span-1 p-2 bg-white">
@@ -150,6 +154,8 @@
                                     </div>
                                     {% if property.start_price_range and property.end_price_range %}
                                         <span class="text-sm text-gray-600">{{ format_price(property.start_price_range) }} - {{ format_price(property.end_price_range) }}</span>
+                                    {% elif property.start_price_range and not property.end_price_range %}
+                                        <span class="text-sm text-gray-600">{{ format_price(property.start_price_range) }}</span>
                                     {% endif %}
                                 </div>
                                 <p class="text-sm text-gray-600 line-clamp-2">{{ property.description }}</p>
