@@ -6,7 +6,7 @@ from extensions.estate_core.models import Developer
 from extensions.estate_core.models import PropertyType
 from extensions.estate_core.models.property_listing import STATUS_CHOICES
 
-IMAGES_ALLOWED = ['jpg', 'jpeg', 'png', 'gif', 'svg', 'webp']
+IMAGES_ALLOWED = ['jpg', 'jpeg', 'png', 'gif', 'svg', 'webp', 'avif']
 
 class AmenitiesForm(Form):
     amenities = StringField('Amenities', validators=[DataRequired(), Length(max=100)], render_kw={'class': 'fd-input', 'placeholder': 'Swimming Pool, Gym, etc...'})
