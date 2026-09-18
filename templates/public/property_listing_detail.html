@@ -13,7 +13,83 @@
     <meta property="og:title" content="{{ property_listing.name }} in {{ property_listing.location }} {{ g.settings['title_prefix'] }}">
     <meta property="og:image" content="{{ url_for('media.serve_media', filename=property_listing.images[0].image_filename, _external=True) }}">
     <meta property="og:type"content="website">
-
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "name": "{{ property_listing.name }}",
+            "description": "{{ property_listing.description }}",
+            "url": "{{ url_for('estate_core.property_listing_detail', developer_name=property_listing.developer.name, property_name=property_listing.name, _external=True) }}",
+            "image": [
+                {% for image in property_listing.images %}
+                    "{{ url_for('media.serve_media', filename=image.image_filename, _external=True) }}"{% if not loop.last %},{% endif %}
+                {% endfor %}
+            ],
+            "brand": {
+                "@type": "Organization",
+                "name": "{{ property_listing.developer.name }}"
+            },
+                "address": {
+                    "@type": "PostalAddress",
+                    "addressLocality": "{{  property_listing.location }}",
+                    "addressCountry": "PH"
+                }
+            },
+            "amenityFeature": [
+                {% for feature in property_listing.amenities %}
+                    { 
+                        "@type": "LocationFeatureSpecification", 
+                        "name": "{{ feature.amenity }}", 
+                        "value": true
+                    },
+                {% endfor %}
+            ],
+            "floorSize": {
+                "@type": "QuantitativeValue",
+                "minValue": {{ property_listing.min_floor_area }},
+                "maxValue": {% if property_listing.max_floor_area %}{{ property_listing.max_floor_area }}{% else %}{{ property_listing.min_floor_area }}{% endif %},
+                "unitCode": "SQM"
+            },
+            "offers": {
+                "@type": "Offer",
+                "url": "{{ url_for('estate_core.property_listing_detail', developer_name=property_listing.developer.name, property_name=property_listing.name, _external=True) }}",
+                "priceCurrency": "PHP",
+                "price": "{{  property_listing.start_price_range }}",
+                "itemCondition": "https://schema.org/NewCondition"
+            }
+        }
+    </script>
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+                {
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Home",
+                    "item": "{{ url_for('estate_core.index', _external=True) }}"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "Property Listing",
+                    "item": "{{ url_for('estate_core.property_listing', _external=True) }}"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 3,
+                    "name": "Avida",
+                    "item": "{{ url_for('estate_core.property_listing', _external=True) }}?developers={{ property_listing.developer.name }}"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 4,
+                    "name": "{{ property_listing.name }}",
+                    "item": "{{ url_for('estate_core.property_listing_detail', developer_name=property_listing.developer.name, property_name=property_listing.name, _external=True) }}"
+                }
+            ]
+        }
+    </script>
 {% endblock %}
 {% block content %}
     {% include "components/navigation-green.html" %}
